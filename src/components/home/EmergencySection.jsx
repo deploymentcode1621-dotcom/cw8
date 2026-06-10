@@ -3,7 +3,7 @@ import { SITE_CONFIG, EMERGENCY_INFO } from "@/utils/constants";
 
 export default function EmergencySection() {
   return (
-    <section className="bg-gradient-to-r from-red-600 to-red-700 text-white py-12">
+    <section className="bg-gradient-to-r from-yellow-600 to-yellow-700 text-white py-12">
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-center">
           {/* Emergency Title */}
