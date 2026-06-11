@@ -45,7 +45,7 @@ export default function Navbar() {
   return (
     <>
       {/* Top bar */}
-      <div className="bg-primary-800 text-white text-sm py-1.5 hidden md:block">
+      {/* <div className="bg-primary-800 text-white text-sm py-1.5 hidden md:block">
         <div className="container-custom flex justify-between items-center">
           <div className="flex items-center gap-6">
             <a
@@ -75,7 +75,7 @@ export default function Navbar() {
             </a>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Main navbar */}
       <header
