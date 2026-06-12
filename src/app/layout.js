@@ -3,7 +3,6 @@ import { Inter, Plus_Jakarta_Sans, Nunito } from "next/font/google";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import WhatsAppButton from "@/components/common/WhatsAppButton";
-import AppointmentSticky from "@/components/common/AppointmentSticky";
 import Script from "next/script";
 import { SITE_CONFIG } from "@/utils/constants";
 
@@ -103,7 +102,7 @@ export default function RootLayout({ children }) {
         <main className="min-h-screen">{children}</main>
         <Footer />
         <WhatsAppButton />
-        <AppointmentSticky />
+        {/* <AppointmentSticky /> */}
 
         {/* Google Analytics */}
         {process.env.NEXT_PUBLIC_GA_ID && (

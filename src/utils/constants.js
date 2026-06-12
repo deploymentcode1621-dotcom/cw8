@@ -11,7 +11,8 @@ export const SITE_CONFIG = {
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP || "919876543210",
   mapEmbedUrl:
     process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL ||
-    "https://maps.google.com/maps?q=latur+hospital&output=embed",
+    "https://www.google.com/maps/search/?api=1&query=Patil+Multispeciality+Hospital+Latur",
+    
   socialLinks: {
     facebook: "https://facebook.com/patilhospital",
     instagram: "https://instagram.com/patilhospital",

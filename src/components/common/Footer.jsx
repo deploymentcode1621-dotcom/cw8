@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Phone,
   Mail,
@@ -50,7 +51,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Hospital Info */}
           <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-3 mb-5">
+            {/* <Link href="/" className="flex items-center gap-3 mb-5">
               <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center">
                 <span className="text-white font-bold text-lg">P</span>
               </div>
@@ -62,7 +63,28 @@ export default function Footer() {
                   Multispeciality
                 </div>
               </div>
-            </Link>
+            </Link> */}
+            <Link href="/" className="flex items-center gap-3 mb-5">
+
+  <Image
+    src="/images/Hospital-logo.png"
+    alt="Patil Hospital Logo"
+    width={65}
+    height={65}
+    className="object-contain"
+  />
+
+  <div>
+    <h2 className="font-heading font-bold text-white text-lg">
+      Patil Multispeciality Hospital
+    </h2>
+
+    <p className="text-xs text-primary-400">
+      Caring for Life, Committed to Excellence
+    </p>
+  </div>
+
+</Link>
             <p className="text-sm leading-relaxed mb-6 text-slate-400">
               {SITE_CONFIG.tagline}. Providing world-class healthcare with compassionate care since {SITE_CONFIG.established}.
             </p>

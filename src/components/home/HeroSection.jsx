@@ -1,271 +1,330 @@
 import Link from "next/link";
 import { Phone, Calendar, Star, Shield, Award, Clock, ArrowRight, Activity, Users, HeartPulse, Stethoscope } from "lucide-react";
-import { SITE_CONFIG, STATS } from "@/utils/constants";
+import { SITE_CONFIG } from "@/utils/constants";
+
+/* ─── Design Tokens ───────────────────────────────────────────
+   Display: 'Playfair Display' (headings only, used sparingly)
+   Body:    Inter, system-ui (all UI text — unified)
+   Palette: Deep teal #0d3d4a, Gold #c8973a, White/alpha scale
+──────────────────────────────────────────────────────────────── */
+
+const T = {
+  gold: "#c8973a",
+  goldLight: "#e4b96a",
+  goldMuted: "rgba(200,151,58,0.18)",
+  goldBorder: "rgba(200,151,58,0.30)",
+  white: "#ffffff",
+  white85: "rgba(255,255,255,0.85)",
+  white65: "rgba(255,255,255,0.65)",
+  white45: "rgba(255,255,255,0.45)",
+  white12: "rgba(255,255,255,0.12)",
+  white08: "rgba(255,255,255,0.08)",
+  white06: "rgba(255,255,255,0.06)",
+  teal: "#0d3d4a",
+  green: "#4ade80",
+  greenMuted: "rgba(74,222,128,0.15)",
+  greenBorder: "rgba(74,222,128,0.30)",
+  blue: "#60a5fa",
+  blueMuted: "rgba(96,165,250,0.12)",
+  blueBorder: "rgba(96,165,250,0.25)",
+  sectionBg: "#f5f3ee",
+  divider: "rgba(255,255,255,0.10)",
+};
+
+const FONT_BODY = "'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif";
+const FONT_DISPLAY = "'Playfair Display', Georgia, serif";
+
+const TRUST_BADGES = [
+  { icon: Star, fill: true, label: "4.9 / 5 Rating", color: T.goldLight, bg: T.goldMuted, border: T.goldBorder },
+  { icon: Award, fill: false, label: "25+ Yrs Excellence", color: "#34d399", bg: "rgba(52,211,153,0.10)", border: "rgba(52,211,153,0.25)" },
+  { icon: Clock, fill: false, label: "24 / 7 Emergency", color: T.blue, bg: T.blueMuted, border: T.blueBorder },
+  { icon: Activity, fill: false, label: "1 Lakh+ Lives", color: "#f472b6", bg: "rgba(244,114,182,0.10)", border: "rgba(244,114,182,0.25)" },
+];
+
+const STATS = [
+  { value: "150+", label: "Doctors" },
+  { value: "25+", label: "Years" },
+  { value: "40+", label: "Specialties" },
+  { value: "1L+", label: "Patients" },
+];
+
+const DEPARTMENTS = [
+  { dept: "Cardiology", slots: "8 slots", icon: <HeartPulse size={16} style={{ color: T.gold }} /> },
+  { dept: "Neurology", slots: "5 slots", icon: <Activity size={16} style={{ color: T.blue }} /> },
+  { dept: "Orthopaedics", slots: "12 slots", icon: <Award size={16} style={{ color: "#34d399" }} /> },
+  { dept: "Paediatrics", slots: "6 slots", icon: <Users size={16} style={{ color: "#f472b6" }} /> },
+];
 
 export default function HeroSection() {
   return (
     <>
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      {/* ════════════════════════════════════
+          HERO SECTION
+      ════════════════════════════════════ */}
+      <section style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", overflow: "hidden" }}>
 
-        {/* ── BACKGROUND HOSPITAL IMAGE with deep overlay ── */}
+        {/* ── Background Video ── */}
+        <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
+          <video
+            autoPlay muted loop playsInline preload="auto"
+            style={{
+              width: "100%", height: "100%", objectFit: "cover", objectPosition: "center",
+            }}
+          >
+            <source src="/videos/Patil-video.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+        {/* ── Overlay 1: Pure dark left-to-right — NO teal/color tint ── */}
+        {/* Key fix: only use rgba(4,20,26,…) — never the teal color mid-stop */}
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(100deg, rgba(4,20,26,0.68) 0%, rgba(4,20,26,0.38) 55%, rgba(4,20,26,0.10) 100%)",
+        }} />
+
+        {/* ── Overlay 2: Bottom shadow (lighter than before) ── */}
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(to top, rgba(4,20,26,0.55) 0%, transparent 40%)",
+        }} />
+
+        {/* ── Left accent bar ── */}
+        <div style={{
+          position: "absolute", left: 0, top: 0, bottom: 0, width: "3px",
+          background: `linear-gradient(to bottom, transparent 0%, ${T.gold} 40%, ${T.gold} 60%, transparent 100%)`,
+          opacity: 0.7,
+        }} />
+
+        {/* ── Content ── */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1920&q=80')`,
+            position: "relative", zIndex: 10, width: "100%", maxWidth: "1280px",
+            margin: "0 auto", padding: "5rem 3rem",
+            display: "grid", gridTemplateColumns: "1fr", gap: "3rem", alignItems: "center",
           }}
-        />
-        {/* Multi-layer overlay: rich deep teal gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a2e38]/97 via-[#0d3d4a]/90 to-[#0a2e38]/60" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#071e26]/80 via-transparent to-transparent" />
+          className="hero-grid"
+        >
 
-        {/* Subtle grid texture overlay */}
-        <div
-          className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-            backgroundSize: "60px 60px",
-          }}
-        />
+          {/* ── LEFT: Main Copy ── */}
+          <div style={{ maxWidth: "680px" }}>
 
-        {/* Decorative accent — glowing orb top right */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full opacity-10"
-          style={{ background: "radial-gradient(circle, #c8973a 0%, transparent 70%)" }}
-        />
-
-        {/* ── VERTICAL ACCENT BAR left edge ── */}
-        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[#c8973a] to-transparent opacity-60" />
-
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-
-            {/* ── LEFT CONTENT ── */}
-            <div className="lg:col-span-7">
-
-              {/* Eyebrow badge */}
-              <div className="inline-flex items-center gap-2.5 mb-7"
-                style={{
-                  background: "rgba(200, 151, 58, 0.12)",
-                  border: "1px solid rgba(200, 151, 58, 0.35)",
-                  borderRadius: "100px",
-                  padding: "8px 18px",
-                }}>
-                <Shield size={13} style={{ color: "#dc2626" }} />
-                <span style={{
-                  color: "#450a0a,",
-                  fontSize: "12px",
-                  fontWeight: 700,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                }}>
-                  NABH Accredited · Latur, Maharashtra
-                </span>
-                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#4ade80", display: "inline-block" }} />
-              </div>
-
-              {/* Main heading */}
-              <h1 style={{
-                fontFamily: "'Playfair Display', Georgia, serif",
-                fontSize: "clamp(2.4rem, 5vw, 4rem)",
-                fontWeight: 700,
-                lineHeight: 1.1,
-                color: "#1e3a5f",
-                marginBottom: "1.5rem",
-                letterSpacing: "-0.01em",
+            {/* Eyebrow */}
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: "8px",
+              background: T.goldMuted, border: `1px solid ${T.goldBorder}`,
+              borderRadius: "100px", padding: "7px 16px",
+              marginBottom: "1.75rem",
+            }}>
+              <Shield size={12} style={{ color: T.gold }} />
+              <span style={{
+                fontFamily: FONT_BODY, fontSize: "11px", fontWeight: 700,
+                letterSpacing: "0.12em", textTransform: "uppercase", color: T.goldLight,
               }}>
-                Advanced Care,{" "}
-                <br />
-                <span style={{
-                  color: "#14532d",
-                }}>
-                  Trusted Healing.
-                </span>
-              </h1>
-
-              <p style={{
-                fontSize: "1.1rem",
-                color: "#1e1b4b (255,255,255,0.68)",
-                lineHeight: 1.75,
-                maxWidth: "540px",
-                marginBottom: "2.2rem",
-                fontWeight: 400,
-              }}>
-                Patil Multispeciality Hospital brings together 150+ specialist doctors,
-                state-of-the-art diagnostics, and compassionate care — delivering world-class
-                outcomes for every patient, every day.
-              </p>
-
-              {/* Trust badges row */}
-              <div className="flex flex-wrap gap-3 mb-9">
-                {[
-                  { icon: <Star size={13} fill="currentColor" />, label: "4.9 / 5 Rating", color: "#c8973a", bg: "rgba(200,151,58,0.12)", border: "rgba(200,151,58,0.3)" },
-                  { icon: <Award size={13} />, label: "25+ Yrs Excellence", color: "#34d399", bg: "rgba(52,211,153,0.1)", border: "rgba(52,211,153,0.25)" },
-                  { icon: <Clock size={13} />, label: "24/7 Emergency", color: "#60a5fa", bg: "rgba(96,165,250,0.1)", border: "rgba(96,165,250,0.25)" },
-                  { icon: <Activity size={13} />, label: "1L+ Lives Cared", color: "#f472b6", bg: "rgba(244,114,182,0.1)", border: "rgba(244,114,182,0.25)" },
-                ].map(({ icon, label, color, bg, border }) => (
-                  <div key={label} style={{
-                    display: "inline-flex", alignItems: "center", gap: "6px",
-                    background: bg, border: `1px solid ${border}`,
-                    borderRadius: "8px", padding: "7px 13px", color,
-                    fontSize: "12px", fontWeight: 600,
-                  }}>
-                    {icon} {label}
-                  </div>
-                ))}
-              </div>
-
-              {/* CTA buttons */}
-              <div className="flex flex-wrap gap-4 mb-12">
-                <Link href="/appointment" style={{
-                  display: "inline-flex", alignItems: "center", gap: "9px",
-                  background: "linear-gradient(135deg, #b8862e 0%, #0891b2 100%)",
-                  color: "#fff",
-                  padding: "14px 30px",
-                  borderRadius: "10px",
-                  fontWeight: 700,
-                  fontSize: "15px",
-                  textDecoration: "none",
-                  boxShadow: "0 4px 24px rgba(200,151,58,0.35)",
-                  letterSpacing: "0.01em",
-                }}>
-                  <Calendar size={17} />
-                  Book Appointment
-                  <ArrowRight size={15} />
-                </Link>
-
-                <a href={`tel:${SITE_CONFIG?.emergencyPhone || "+911234567890"}`} style={{
-                  display: "inline-flex", alignItems: "center", gap: "9px",
-                  background: "rgba(255,255,255,0.07)",
-                  border: "1.5px solid rgba(255,255,255,0.25)",
-                  color: "#fff",
-                  padding: "14px 28px",
-                  borderRadius: "10px",
-                  fontWeight: 600,
-                  fontSize: "15px",
-                  textDecoration: "none",
-                  backdropFilter: "blur(8px)",
-                }}>
-                  <Phone size={17} />
-                  Emergency Call
-                </a>
-              </div>
-
-              {/* Stats row */}
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(4, 1fr)",
-                gap: "0",
-                borderTop: "1px solid rgba(255,255,255,0.1)",
-                paddingTop: "1.5rem",
-              }}>
-                {[
-                  { value: "150+", label: "Doctors" },
-                  { value: "25+", label: "Years" },
-                  { value: "40+", label: "Specialties" },
-                  { value: "1L+", label: "Patients" },
-                ].map((stat, i) => (
-                  <div key={stat.label} style={{
-                    textAlign: "center",
-                    borderRight: i < 3 ? "1px solid rgba(255,255,255,0.1)" : "none",
-                    padding: "0 1rem",
-                  }}>
-                    <div style={{
-                      fontFamily: "'Playfair Display', Georgia, serif",
-                      fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
-                      fontWeight: 700,
-                      color: "#e4b96a",
-                      lineHeight: 1,
-                      marginBottom: "4px",
-                    }}>{stat.value}</div>
-                    <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.45)", fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.08em" }}>
-                      {stat.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                NABH Accredited · Latur, Maharashtra
+              </span>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.green, flexShrink: 0 }} />
             </div>
 
-            {/* ── RIGHT CONTENT — Floating Info Panel ── */}
-            <div className="lg:col-span-5 hidden lg:flex flex-col gap-4">
+            {/* Heading */}
+            <h1 style={{
+              fontFamily: FONT_DISPLAY,
+              fontSize: "clamp(2.4rem, 5vw, 4.1rem)",
+              fontWeight: 700,
+              lineHeight: 1.14,
+              color: T.white,
+              marginBottom: "1.25rem",
+              letterSpacing: "-0.015em",
+              textShadow: "0 2px 24px rgba(0,0,0,0.35)",
+            }}>
+              Advanced Care,
+              <br />
+              <span style={{ color: T.goldLight }}>Trusted Healing.</span>
+            </h1>
 
-              {/* Availability card */}
-              <div style={{
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.12)",
-                borderRadius: "16px",
-                padding: "20px 22px",
-                backdropFilter: "blur(16px)",
-              }}>
-                <div className="flex items-center justify-between mb-4">
-                  <span style={{ color: "rgba(255,255,255,0.5)", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600 }}>
-                    Today's Availability
-                  </span>
-                  <span style={{
-                    background: "rgba(74,222,128,0.15)", border: "1px solid rgba(74,222,128,0.3)",
-                    color: "#4ade80", fontSize: "11px", fontWeight: 700, borderRadius: "100px", padding: "3px 10px",
-                  }}>● OPEN</span>
+            {/* Sub-heading */}
+            <p style={{
+              fontFamily: FONT_BODY,
+              fontSize: "1.08rem",
+              color: T.white85,
+              lineHeight: 1.8,
+              maxWidth: "520px",
+              marginBottom: "2rem",
+              fontWeight: 400,
+              textShadow: "0 1px 12px rgba(0,0,0,0.30)",
+            }}>
+              Patil Multispeciality Hospital brings together 150+ specialist doctors,
+              state-of-the-art diagnostics, and compassionate care — delivering
+              world-class outcomes for every patient, every day.
+            </p>
+
+            {/* Trust badges */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "2.25rem" }}>
+              {TRUST_BADGES.map(({ icon: Icon, fill, label, color, bg, border }) => (
+                <div key={label} style={{
+                  display: "inline-flex", alignItems: "center", gap: "6px",
+                  background: bg, border: `1px solid ${border}`,
+                  borderRadius: "8px", padding: "7px 13px", color,
+                  fontFamily: FONT_BODY, fontSize: "12px", fontWeight: 600,
+                  backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)",
+                }}>
+                  <Icon size={13} {...(fill ? { fill: "currentColor" } : {})} />
+                  {label}
                 </div>
-                {[
-                  { dept: "Cardiology", slots: "8 slots", icon: "❤️" },
-                  { dept: "Neurology", slots: "5 slots", icon: "🧠" },
-                  { dept: "Orthopaedics", slots: "12 slots", icon: "🦴" },
-                  { dept: "Paediatrics", slots: "6 slots", icon: "👶" },
-                ].map(({ dept, slots, icon }) => (
-                  <div key={dept} className="flex items-center justify-between" style={{
-                    padding: "9px 0",
-                    borderBottom: "1px solid rgba(255,255,255,0.07)",
+              ))}
+            </div>
+
+            {/* CTA buttons */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "14px", marginBottom: "3rem" }}>
+              <Link href="/appointment" style={{
+                display: "inline-flex", alignItems: "center", gap: "9px",
+                background: `linear-gradient(135deg, ${T.gold} 0%, #b8862e 100%)`,
+                color: "#0a1f26",
+                padding: "14px 28px",
+                borderRadius: "10px",
+                fontFamily: FONT_BODY, fontWeight: 700, fontSize: "15px",
+                textDecoration: "none",
+                boxShadow: "0 4px 20px rgba(200,151,58,0.40)",
+                letterSpacing: "0.01em",
+              }}>
+                <Calendar size={17} />
+                Book Appointment
+                <ArrowRight size={15} />
+              </Link>
+
+              <a href={`tel:${SITE_CONFIG?.emergencyPhone ?? "+911234567890"}`} style={{
+                display: "inline-flex", alignItems: "center", gap: "9px",
+                background: T.white08,
+                border: `1.5px solid ${T.white12}`,
+                color: T.white85,
+                padding: "14px 26px",
+                borderRadius: "10px",
+                fontFamily: FONT_BODY, fontWeight: 600, fontSize: "15px",
+                textDecoration: "none",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
+              }}>
+                <Phone size={17} />
+                Emergency Call
+              </a>
+            </div>
+
+            {/* Stats row */}
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              borderTop: `1px solid ${T.divider}`,
+              paddingTop: "1.5rem",
+            }}>
+              {STATS.map((s, i) => (
+                <div key={s.label} style={{
+                  textAlign: "center",
+                  borderRight: i < 3 ? `1px solid ${T.divider}` : "none",
+                  padding: "0 0.75rem",
+                }}>
+                  <div style={{
+                    fontFamily: FONT_DISPLAY,
+                    fontSize: "clamp(1.4rem, 2.2vw, 1.9rem)",
+                    fontWeight: 700,
+                    color: T.goldLight,
+                    lineHeight: 1,
+                    marginBottom: "5px",
+                  }}>{s.value}</div>
+                  <div style={{
+                    fontFamily: FONT_BODY,
+                    fontSize: "11px", color: T.white45,
+                    fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.09em",
                   }}>
-                    <div className="flex items-center gap-2.5">
-                      <span style={{ fontSize: "16px" }}>{icon}</span>
-                      <span style={{ color: "rgba(255,255,255,0.85)", fontSize: "14px", fontWeight: 500 }}>{dept}</span>
-                    </div>
-                    <span style={{ color: "#e4b96a", fontSize: "13px", fontWeight: 600 }}>{slots}</span>
+                    {s.label}
                   </div>
-                ))}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ── RIGHT: Floating Info Panel (desktop only) ── */}
+          <div className="hero-panel" style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+
+            {/* Today's Availability card */}
+            <div style={{
+              background: T.white06,
+              border: `1px solid ${T.white12}`,
+              borderRadius: "16px",
+              padding: "20px",
+              backdropFilter: "blur(18px)",
+              WebkitBackdropFilter: "blur(18px)",
+            }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px" }}>
+                <span style={{ fontFamily: FONT_BODY, color: T.white45, fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600 }}>
+                  Today's Availability
+                </span>
+                <span style={{
+                  background: T.greenMuted, border: `1px solid ${T.greenBorder}`,
+                  color: T.green, fontFamily: FONT_BODY,
+                  fontSize: "11px", fontWeight: 700, borderRadius: "100px", padding: "3px 10px",
+                }}>● OPEN</span>
               </div>
 
-              {/* Quick contact cards */}
-              <div className="grid grid-cols-2 gap-4">
-                <div style={{
-                  background: "linear-gradient(135deg, rgba(200,151,58,0.18) 0%, rgba(200,151,58,0.08) 100%)",
-                  border: "1px solid rgba(200,151,58,0.25)",
-                  borderRadius: "14px",
-                  padding: "18px 16px",
-                  backdropFilter: "blur(12px)",
+              {DEPARTMENTS.map(({ dept, slots, icon }) => (
+                <div key={dept} style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  padding: "10px 0",
+                  borderBottom: `1px solid ${T.white08}`,
                 }}>
-                  <Stethoscope size={22} style={{ color: "#e4b96a", marginBottom: "10px" }} />
-                  <div style={{ color: "#fff", fontWeight: 700, fontSize: "15px", marginBottom: "2px" }}>OPD Timing</div>
-                  <div style={{ color: "rgba(255,255,255,0.5)", fontSize: "12px" }}>9 AM – 6 PM</div>
-                  <div style={{ color: "rgba(255,255,255,0.5)", fontSize: "12px" }}>Mon – Sat</div>
-                </div>
-                <div style={{
-                  background: "linear-gradient(135deg, rgba(96,165,250,0.15) 0%, rgba(96,165,250,0.06) 100%)",
-                  border: "1px solid rgba(96,165,250,0.22)",
-                  borderRadius: "14px",
-                  padding: "18px 16px",
-                  backdropFilter: "blur(12px)",
-                }}>
-                  <HeartPulse size={22} style={{ color: "#60a5fa", marginBottom: "10px" }} />
-                  <div style={{ color: "#fff", fontWeight: 700, fontSize: "15px", marginBottom: "2px" }}>Emergency</div>
-                  <div style={{ color: "rgba(255,255,255,0.5)", fontSize: "12px" }}>Always Open</div>
-                  <div style={{ color: "rgba(255,255,255,0.5)", fontSize: "12px" }}>24 / 7 / 365</div>
-                </div>
-              </div>
-
-              {/* Doctor count pill */}
-              <div style={{
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: "12px",
-                padding: "14px 18px",
-                display: "flex", alignItems: "center", gap: "14px",
-                backdropFilter: "blur(12px)",
-              }}>
-                <Users size={20} style={{ color: "#e4b96a", flexShrink: 0 }} />
-                <div>
-                  <div style={{ color: "#fff", fontWeight: 600, fontSize: "14px" }}>150+ Expert Specialists on Call</div>
-                  <div style={{ color: "rgba(255,255,255,0.45)", fontSize: "12px", marginTop: "2px" }}>
-                    Cardiologists · Neurologists · Oncologists · and 40+ more
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    {icon}
+                    <span style={{ fontFamily: FONT_BODY, color: T.white85, fontSize: "14px", fontWeight: 500 }}>{dept}</span>
                   </div>
+                  <span style={{ fontFamily: FONT_BODY, color: T.goldLight, fontSize: "13px", fontWeight: 600 }}>{slots}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* OPD + Emergency cards */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px" }}>
+              {[
+                {
+                  Icon: Stethoscope, iconColor: T.gold,
+                  bg: `linear-gradient(135deg, rgba(200,151,58,0.16) 0%, rgba(200,151,58,0.06) 100%)`,
+                  border: T.goldBorder,
+                  title: "OPD Timing", lines: ["9 AM – 6 PM", "Mon – Sat"],
+                },
+                {
+                  Icon: HeartPulse, iconColor: T.blue,
+                  bg: `linear-gradient(135deg, ${T.blueMuted} 0%, rgba(96,165,250,0.04) 100%)`,
+                  border: T.blueBorder,
+                  title: "Emergency", lines: ["Always Open", "24 / 7 / 365"],
+                },
+              ].map(({ Icon, iconColor, bg, border, title, lines }) => (
+                <div key={title} style={{
+                  background: bg, border: `1px solid ${border}`,
+                  borderRadius: "14px", padding: "18px 16px",
+                  backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
+                }}>
+                  <Icon size={22} style={{ color: iconColor, marginBottom: "10px" }} />
+                  <div style={{ fontFamily: FONT_BODY, color: T.white, fontWeight: 700, fontSize: "14px", marginBottom: "4px" }}>{title}</div>
+                  {lines.map(l => (
+                    <div key={l} style={{ fontFamily: FONT_BODY, color: T.white45, fontSize: "12px", lineHeight: 1.6 }}>{l}</div>
+                  ))}
+                </div>
+              ))}
+            </div>
+
+            {/* Doctor count pill */}
+            <div style={{
+              background: T.white06,
+              border: `1px solid ${T.white12}`,
+              borderRadius: "12px",
+              padding: "14px 18px",
+              display: "flex", alignItems: "center", gap: "14px",
+              backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
+            }}>
+              <Users size={20} style={{ color: T.goldLight, flexShrink: 0 }} />
+              <div>
+                <div style={{ fontFamily: FONT_BODY, color: T.white, fontWeight: 700, fontSize: "14px" }}>
+                  150+ Expert Specialists on Call
+                </div>
+                <div style={{ fontFamily: FONT_BODY, color: T.white45, fontSize: "12px", marginTop: "3px" }}>
+                  Cardiologists · Neurologists · Oncologists · 40+ more
                 </div>
               </div>
             </div>
@@ -273,38 +332,66 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* ── BOTTOM FADE for section transition ── */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
-          style={{ background: "linear-gradient(to bottom, transparent, #f5f3ee)" }}
-        />
+        {/* Bottom fade into next section */}
+        <div style={{
+          position: "absolute", bottom: 0, left: 0, right: 0, height: "100px",
+          background: `linear-gradient(to bottom, transparent, ${T.sectionBg})`,
+          pointerEvents: "none",
+        }} />
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════
-           UNIQUE SECTION TRANSITION — Diagonal Stripe Divider
-      ══════════════════════════════════════════════════════════════ */}
-      <div className="relative -mt-1 overflow-hidden" style={{ height: "80px", background: "#f5f3ee" }}>
-        {/* Diagonal colored accent stripe */}
-        <svg viewBox="0 0 1440 80" preserveAspectRatio="none" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-          <polygon points="0,0 1440,0 1440,80 0,80" fill="#f5f3ee" />
-          <polygon points="0,80 480,0 960,80 1440,0 1440,80 0,80" fill="#0d3d4a" opacity="0.06" />
-          <polygon points="0,80 200,20 400,80 600,20 800,80 1000,20 1200,80 1440,20 1440,80" fill="#c8973a" opacity="0.12" />
+      {/* ════════════════════════════════════
+          SECTION DIVIDER — diagonal stripe
+      ════════════════════════════════════ */}
+      <div style={{ position: "relative", marginTop: "-1px", height: "72px", background: T.sectionBg, overflow: "hidden" }}>
+        <svg viewBox="0 0 1440 72" preserveAspectRatio="none"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+          <polygon points="0,0 1440,0 1440,72 0,72" fill={T.sectionBg} />
+          <polygon points="0,72 480,0 960,72 1440,0 1440,72 0,72" fill={T.teal} opacity="0.06" />
+          <polygon points="0,72 200,20 400,72 600,20 800,72 1000,20 1200,72 1440,20 1440,72" fill={T.gold} opacity="0.11" />
         </svg>
-        {/* Center label */}
         <div style={{
           position: "absolute", inset: 0,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          gap: "12px",
+          display: "flex", alignItems: "center", justifyContent: "center", gap: "14px",
         }}>
-          <div style={{ height: "1px", width: "60px", background: "linear-gradient(to right, transparent, #c8973a)" }} />
+          <div style={{ height: "1px", width: "56px", background: `linear-gradient(to right, transparent, ${T.gold})` }} />
           <span style={{
-            fontSize: "10px", fontWeight: 700, letterSpacing: "0.18em",
-            textTransform: "uppercase", color: "#b8862e",
+            fontFamily: FONT_BODY, fontSize: "10px", fontWeight: 700,
+            letterSpacing: "0.18em", textTransform: "uppercase", color: "#b8862e",
           }}>
             Our Services
           </span>
-          <div style={{ height: "1px", width: "60px", background: "linear-gradient(to left, transparent, #c8973a)" }} />
+          <div style={{ height: "1px", width: "56px", background: `linear-gradient(to left, transparent, ${T.gold})` }} />
         </div>
       </div>
+
+      {/* ── Responsive layout styles ── */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+        .hero-grid {
+          grid-template-columns: 1fr !important;
+        }
+        .hero-panel {
+          display: none !important;
+        }
+
+        @media (min-width: 1024px) {
+          .hero-grid {
+            grid-template-columns: 7fr 5fr !important;
+            padding: 5rem 3rem !important;
+          }
+          .hero-panel {
+            display: flex !important;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .hero-grid {
+            padding: 4rem 1.25rem !important;
+          }
+        }
+      `}</style>
     </>
   );
 }
