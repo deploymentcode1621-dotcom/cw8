@@ -297,12 +297,7 @@ export default function Navbar() {
         account for the navbar height so content isn't hidden underneath.
         Add pt-20 (80px) to your hero section, or add this global style:
       */}
-      <style>{`
-        /* Compensate for fixed navbar on non-hero pages */
-        body:not(.is-home) main > *:first-child {
-          padding-top: 80px;
-        }
-      `}</style>
+      
     </>
   );
 }
