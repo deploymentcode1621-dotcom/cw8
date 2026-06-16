@@ -260,7 +260,7 @@ export default function FacilitiesPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap');
 
         /* ══ TOKENS ══════════════════════════════ */
         :root {
@@ -304,9 +304,7 @@ export default function FacilitiesPage() {
           padding: 0;
         }
 
-        /* ══ HERO ════════════════════════════════
-           Soft warm cream, no dark at all
-        ════════════════════════════════════════ */
+        /* ══ HERO ════════════════════════════════ */
         .fp-hero {
           position: relative;
           background: var(--cream-lt);
@@ -317,7 +315,6 @@ export default function FacilitiesPage() {
           border-bottom: 1px solid var(--border-g);
         }
 
-        /* Subtle paper texture */
         .hero-noise {
           position: absolute;
           inset: 0;
@@ -327,7 +324,6 @@ export default function FacilitiesPage() {
           pointer-events: none;
         }
 
-        /* Soft sage-gold radial glow */
         .hero-glow {
           position: absolute;
           inset: 0;
@@ -338,7 +334,6 @@ export default function FacilitiesPage() {
           pointer-events: none;
         }
 
-        /* Fine horizontal rules */
         .hero-rules {
           position: absolute;
           inset: 0;
@@ -351,7 +346,6 @@ export default function FacilitiesPage() {
           pointer-events: none;
         }
 
-        /* Scalpel line */
         .scalpel-svg {
           position: absolute;
           top: 50%;
@@ -370,7 +364,6 @@ export default function FacilitiesPage() {
         }
         @keyframes drawLine { to { stroke-dashoffset: 0; } }
 
-        /* Hero layout */
         .hero-body {
           position: relative;
           z-index: 10;
@@ -384,7 +377,6 @@ export default function FacilitiesPage() {
           align-items: center;
         }
 
-        /* Eyebrow */
         .hero-eyebrow {
           display: inline-flex;
           align-items: center;
@@ -406,9 +398,8 @@ export default function FacilitiesPage() {
           color: var(--sage);
         }
 
-        /* Heading */
         .hero-heading {
-          font-family: 'Times New Roman', 'Times', Georgia, serif;
+          font-family: 'Playfair Display', Georgia, serif;
           font-size: clamp(3rem, 5.6vw, 5.4rem);
           font-weight: 400;
           line-height: 1.02;
@@ -433,7 +424,6 @@ export default function FacilitiesPage() {
           background: linear-gradient(90deg, var(--sage), transparent);
         }
 
-        /* Sub */
         .hero-sub {
           font-size: 1rem;
           font-weight: 300;
@@ -444,7 +434,6 @@ export default function FacilitiesPage() {
           animation: fadeUp 0.8s 0.26s both;
         }
 
-        /* Actions */
         .hero-actions {
           display: flex;
           gap: 16px;
@@ -509,7 +498,6 @@ export default function FacilitiesPage() {
           background: var(--sage-dim);
         }
 
-        /* Stats right panel */
         .hero-stats {
           display: flex;
           flex-direction: column;
@@ -539,7 +527,7 @@ export default function FacilitiesPage() {
           border-color: var(--border-g);
         }
         .stat-index {
-          font-family: 'Times New Roman', serif;
+          font-family: 'Playfair Display', Georgia, serif;
           font-size: 0.68rem;
           color: var(--gold);
           opacity: 0.6;
@@ -547,7 +535,7 @@ export default function FacilitiesPage() {
           min-width: 20px;
         }
         .stat-num {
-          font-family: 'Times New Roman', 'Times', Georgia, serif;
+          font-family: 'Playfair Display', Georgia, serif;
           font-size: 2.6rem;
           font-weight: 400;
           color: var(--ink);
@@ -636,7 +624,7 @@ export default function FacilitiesPage() {
         }
         .band-item { text-align: center; }
         .band-num {
-          font-family: 'Times New Roman', serif;
+          font-family: 'Playfair Display', Georgia, serif;
           font-size: 1.9rem;
           color: var(--sage);
           line-height: 1;
@@ -705,7 +693,7 @@ export default function FacilitiesPage() {
         }
 
         .section-heading {
-          font-family: 'Times New Roman', 'Times', Georgia, serif;
+          font-family: 'Playfair Display', Georgia, serif;
           font-size: clamp(2.4rem, 4.2vw, 3.5rem);
           font-weight: 400;
           line-height: 1.08;
@@ -760,7 +748,6 @@ export default function FacilitiesPage() {
           background: #FFFDF5;
         }
 
-        /* Shimmer */
         .card-shimmer {
           position: absolute;
           inset: 0;
@@ -778,7 +765,6 @@ export default function FacilitiesPage() {
           transition: transform 0.55s ease;
         }
 
-        /* Left bar */
         .card-left-bar {
           position: absolute;
           top: 0; left: 0; bottom: 0;
@@ -790,7 +776,6 @@ export default function FacilitiesPage() {
         }
         .fac-card.is-hovered .card-left-bar { transform: scaleY(1); }
 
-        /* Icon */
         .card-icon-wrap {
           display: flex;
           align-items: flex-start;
@@ -818,7 +803,7 @@ export default function FacilitiesPage() {
           color: var(--accent, var(--sage));
         }
         .icon-number {
-          font-family: 'Times New Roman', serif;
+          font-family: 'Playfair Display', Georgia, serif;
           font-size: 0.7rem;
           letter-spacing: 0.08em;
           color: var(--muted-lt);
@@ -827,7 +812,7 @@ export default function FacilitiesPage() {
         }
 
         .card-name {
-          font-family: 'Times New Roman', 'Times', Georgia, serif;
+          font-family: 'Playfair Display', Georgia, serif;
           font-size: 1.12rem;
           font-weight: 400;
           color: var(--ink);
@@ -880,7 +865,7 @@ export default function FacilitiesPage() {
         .card-watermark {
           position: absolute;
           bottom: 20px; right: 24px;
-          font-family: 'Times New Roman', serif;
+          font-family: 'Playfair Display', Georgia, serif;
           font-size: 3.5rem; line-height: 1;
           color: rgba(166,124,42,0.05);
           pointer-events: none;
@@ -891,9 +876,7 @@ export default function FacilitiesPage() {
           color: rgba(166,124,42,0.09);
         }
 
-        /* ══ PHILOSOPHY STRIP ════════════════════
-           Warm parchment — still fully light
-        ════════════════════════════════════════ */
+        /* ══ PHILOSOPHY STRIP ════════════════════ */
         .philosophy-strip {
           background: var(--parchment);
           padding: 80px 40px;
@@ -911,7 +894,7 @@ export default function FacilitiesPage() {
           pointer-events: none;
         }
         .philosophy-quote {
-          font-family: 'Times New Roman', 'Times', Georgia, serif;
+          font-family: 'Playfair Display', Georgia, serif;
           font-size: clamp(1.5rem, 2.8vw, 2.2rem);
           font-weight: 400;
           font-style: italic;

@@ -366,32 +366,7 @@ export default function HeroSection() {
       </div>
 
       {/* ── Responsive layout styles ── */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
-
-        .hero-grid {
-          grid-template-columns: 1fr !important;
-        }
-        .hero-panel {
-          display: none !important;
-        }
-
-        @media (min-width: 1024px) {
-          .hero-grid {
-            grid-template-columns: 7fr 5fr !important;
-            padding: 5rem 3rem !important;
-          }
-          .hero-panel {
-            display: flex !important;
-          }
-        }
-
-        @media (max-width: 600px) {
-          .hero-grid {
-            padding: 4rem 1.25rem !important;
-          }
-        }
-      `}</style>
+      
     </>
   );
 }
