@@ -65,7 +65,7 @@ export default function Navbar() {
                 }`}
               >
                 <Image
-                  src="/photo/Hospital-logo.png"
+                  src="/images/Hospital-logo.png"
                   alt="Patil Hospital Logo"
                   width={48}
                   height={48}
@@ -162,25 +162,6 @@ export default function Navbar() {
 
             {/* ── CTA buttons ── */}
             <div className="hidden lg:flex items-center gap-3">
-
-              {/* Emergency number */}
-              <a
-                href="tel:+918001234567"
-                className={`flex items-center gap-2.5 text-sm font-semibold px-4 py-2 rounded-xl transition-all duration-200 ${
-                  isTransparent
-                    ? 'bg-red-500/80 hover:bg-red-500 text-white border border-red-400/40 backdrop-blur-sm'
-                    : 'bg-red-50 hover:bg-red-100 text-red-600 border border-red-100'
-                }`}
-              >
-                <span className="relative flex h-2 w-2 shrink-0">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
-                </span>
-                <span className="flex flex-col leading-none">
-                  <span className="text-[10px] font-medium opacity-80 tracking-wide uppercase">Emergency</span>
-                  <span className="text-sm font-bold tracking-tight">+91 800 123 4567</span>
-                </span>
-              </a>
 
               {/* Book Appointment */}
               {isTransparent ? (

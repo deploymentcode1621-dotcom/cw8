@@ -7,10 +7,6 @@ import { useState } from 'react'
 // ── DATA ────────────────────────────────────────────────────────────────────
 
 const stats = [
-  { value: '25+', label: 'Years of Excellence' },
-  { value: '150+', label: 'Expert Specialists' },
-  { value: '50K+', label: 'Patients Treated' },
-  { value: '98%', label: 'Patient Satisfaction' },
 ]
 
 const services = [

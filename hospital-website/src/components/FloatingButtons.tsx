@@ -1,17 +1,33 @@
 "use client";
 
-import { Phone, MessageCircle, MapPin } from "lucide-react";
+import { Phone } from "lucide-react";
 
 export default function FloatingButtons() {
   return (
-    <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-4">
+    <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-5">
+
+      {/* Google Maps */}
+      <a
+        href="https://www.google.com/maps/search/?api=1&query=Patil+Hospital"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Directions"
+        className="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-xl transition-all duration-300 hover:scale-110"
+      >
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Google_Maps_icon_%282020%29.svg"
+          alt="Google Maps"
+          className="h-9 w-9"
+        />
+      </a>
 
       {/* Phone */}
       <a
         href="tel:+918001234567"
-        className="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-[0_0_25px_rgba(37,99,235,0.6)] hover:scale-110 transition duration-300"
+        aria-label="Call Hospital"
+        className="flex h-16 w-16 items-center justify-center rounded-full bg-[#4285F4] text-white shadow-xl transition-all duration-300 hover:scale-110"
       >
-        <Phone size={28} />
+        <Phone size={30} strokeWidth={2.2} />
       </a>
 
       {/* WhatsApp */}
@@ -19,21 +35,15 @@ export default function FloatingButtons() {
         href="https://wa.me/918001234567"
         target="_blank"
         rel="noopener noreferrer"
-        className="w-16 h-16 rounded-full bg-green-500 text-white flex items-center justify-center shadow-[0_0_25px_rgba(34,197,94,0.6)] hover:scale-110 transition duration-300"
+        aria-label="WhatsApp"
+        className="flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] shadow-xl transition-all duration-300 hover:scale-110"
       >
-        <MessageCircle size={28} />
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+          alt="WhatsApp"
+          className="h-9 w-9"
+        />
       </a>
-
-      {/* Location */}
-      <a
-        href="https://maps.google.com/?q=Patil+Hospital"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="w-16 h-16 rounded-full bg-red-500 text-white flex items-center justify-center shadow-[0_0_25px_rgba(239,68,68,0.6)] hover:scale-110 transition duration-300"
-      >
-        <MapPin size={28} />
-      </a>
-
     </div>
   );
 }
