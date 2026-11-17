@@ -3,6 +3,9 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
+const MAP_URL =
+  'https://www.google.com/maps/search/?api=1&query=Patil+Multispeciality+Hospital+Barshi+Road+Latur'
+
 const departments = [
   'Cardiology', 'Neurology', 'Orthopedics', 'Pediatrics',
   'Gynecology', 'Oncology', 'General Medicine', 'Emergency',
@@ -52,133 +55,172 @@ export default function ContactPage() {
   return (
     <>
       {/* ══════════════════════════════════════════════
-          HERO — full-viewport with layered depth
+          HERO — warm ivory + deep green (no blue)
           ══════════════════════════════════════════════ */}
-      <section
-        className="relative min-h-[92vh] flex flex-col justify-center overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #F0F7FF 0%, #EEF4FB 40%, #F5F0FF 75%, #FFF5F7 100%)' }}
-      >
-        {/* — sky-blue radial bloom, top-right — */}
+      <section className="relative overflow-hidden" style={{ background: '#F8F6F1' }}>
+        {/* faint medical-cross pattern, fades out toward the left */}
         <div
-          className="absolute -top-32 -right-32 w-[640px] h-[640px] rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(99,179,237,0.22) 0%, transparent 65%)' }}
-        />
-        {/* — soft lavender bloom, bottom-left — */}
-        <div
-          className="absolute -bottom-20 -left-20 w-[520px] h-[520px] rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(167,139,250,0.16) 0%, transparent 65%)' }}
-        />
-        {/* — peach accent, centre-right — */}
-        <div
-          className="absolute top-1/2 right-1/4 w-[320px] h-[320px] rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(251,146,60,0.10) 0%, transparent 65%)' }}
-        />
-
-        {/* — soft dot grid — */}
-        <div
-          className="absolute inset-0 pointer-events-none"
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
           style={{
-            backgroundImage: 'radial-gradient(circle, rgba(99,130,180,0.12) 1px, transparent 1px)',
-            backgroundSize: '32px 32px',
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cpath d='M28 21v14M21 28h14' stroke='%230F3D33' stroke-width='2' stroke-linecap='round' opacity='0.10'/%3E%3C/svg%3E\")",
+            maskImage: 'linear-gradient(100deg, transparent 20%, black 85%)',
+            WebkitMaskImage: 'linear-gradient(100deg, transparent 20%, black 85%)',
           }}
         />
-
-        {/* — thin accent rule at top — */}
-        <div className="absolute top-0 left-0 right-0 h-[3px]"
-          style={{ background: 'linear-gradient(90deg, transparent, #63B3ED, #A78BFA, #F9A8D4, transparent)' }}
+        {/* soft sage glow behind the card */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-24 -right-32 h-[560px] w-[560px] rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(134,188,160,0.35) 0%, transparent 65%)' }}
         />
 
-        {/* — content — */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-28 w-full">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="relative mx-auto max-w-7xl px-6 pt-24 pb-40 lg:px-10 lg:pt-28 lg:pb-48">
+          <div className="grid items-center gap-14 lg:grid-cols-12">
 
-            {/* LEFT — headline block */}
-            <div>
-              {/* eyebrow pill */}
-              <div className="inline-flex items-center gap-2.5 border border-[#63B3ED]/40 bg-white/70 backdrop-blur-sm rounded-full px-5 py-2 mb-10 shadow-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6] animate-pulse" />
-                <span className="text-[#2563EB] text-[11px] font-semibold tracking-[0.2em] uppercase">Patil Hospital · Contact</span>
+            {/* LEFT — message */}
+            <div className="lg:col-span-6">
+              <nav aria-label="Breadcrumb" className="mb-8 flex items-center gap-2 text-sm text-stone-500">
+                <Link href="/" className="transition-colors hover:text-[#0F3D33]">Home</Link>
+                <span aria-hidden="true">/</span>
+                <span className="font-medium text-[#0F3D33]">Contact</span>
+              </nav>
+
+              <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-emerald-900/10 bg-white py-2 pl-4 pr-5 shadow-sm">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-600" />
+                </span>
+                <span className="text-sm font-medium text-[#0F3D33]">Emergency care open 24/7</span>
               </div>
 
-              <h1 className="font-display text-5xl md:text-6xl xl:text-[68px] font-black leading-[1.05] text-[#0F172A] mb-6">
-                Let&apos;s Get You<br />
-                <span
-                  style={{
-                    background: 'linear-gradient(90deg, #2563EB 0%, #7C3AED 55%, #DB2777 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                  }}
-                >
-                  the Right Care
-                </span>
+              <h1 className="font-display text-4xl font-bold leading-[1.1] tracking-tight text-[#0F3D33] sm:text-5xl lg:text-6xl">
+                Let&apos;s get you the right care
               </h1>
 
-              <p className="text-slate-500 text-lg leading-relaxed max-w-md mb-12">
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-stone-600 sm:text-lg">
                 Whether it&apos;s a routine check-up or a specialist consultation, our team connects you to the right doctor within 2 hours.
               </p>
 
-              {/* promise cards — three micro-stats */}
-              <div className="grid grid-cols-3 gap-3 mb-14">
-                {[
-                  { stat: '2 hrs',  label: 'Response time',  color: '#2563EB', bg: '#EFF6FF', border: '#BFDBFE' },
-                  { stat: '24/7',   label: 'Emergency line',  color: '#DC2626', bg: '#FEF2F2', border: '#FECACA' },
-                  { stat: '40+',    label: 'Specialties',     color: '#7C3AED', bg: '#F5F3FF', border: '#DDD6FE' },
-                ].map((s) => (
-                  <div
-                    key={s.label}
-                    className="rounded-2xl border px-4 py-4 text-center shadow-sm bg-white/80 backdrop-blur-sm"
-                    style={{ borderColor: s.border }}
-                  >
-                    <div className="text-[24px] font-black leading-none mb-1" style={{ color: s.color }}>{s.stat}</div>
-                    <div className="text-slate-400 text-[11px] leading-tight">{s.label}</div>
-                  </div>
-                ))}
+              <div className="mt-10 flex flex-wrap items-center gap-4">
+                <a
+                  href="#appointment"
+                  className="inline-flex items-center gap-2.5 rounded-xl bg-[#0F3D33] px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-emerald-950/20 transition hover:bg-[#14532D] focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F8F6F1]"
+                >
+                  <IconCalendar />
+                  Book an appointment
+                </a>
+                <a
+                  href="tel:+18005550199"
+                  className="inline-flex items-center gap-2.5 rounded-xl border border-red-600/30 bg-white px-7 py-3.5 text-sm font-semibold text-red-700 transition hover:bg-red-600 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F8F6F1]"
+                >
+                  <IconPhone />
+                  Emergency: +1 (800) 555-0199
+                </a>
               </div>
 
-              {/* emergency CTA */}
-              <a
-                href="tel:+18005550199"
-                className="group inline-flex items-center gap-3 bg-red-500 hover:bg-red-600 text-white font-bold text-sm px-8 py-4 rounded-2xl transition-all duration-200 shadow-[0_4px_24px_rgba(239,68,68,0.30)] hover:shadow-[0_6px_32px_rgba(239,68,68,0.45)]"
-              >
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-70" />
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white" />
-                </span>
-                Emergency? Call Now — +1 (800) 555-0199
-                <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
-                </svg>
-              </a>
+              {/* promise row */}
+              <dl className="mt-12 grid max-w-md grid-cols-3 divide-x divide-emerald-900/10">
+                {[
+                  { stat: '2 hrs', label: 'Response time' },
+                  { stat: '24/7',  label: 'Emergency line' },
+                  { stat: '40+',   label: 'Specialties' },
+                ].map((s, i) => (
+                  <div key={s.label} className={i === 0 ? 'pr-5' : 'px-5'}>
+                    <dt className="text-2xl font-bold text-[#0F3D33]">{s.stat}</dt>
+                    <dd className="mt-0.5 text-xs text-stone-500">{s.label}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
 
-            {/* RIGHT — floating info tiles */}
-            <div className="hidden lg:flex flex-col gap-4">
-              {[
-                { Icon: IconPin,   label: 'Address',   value: '123 Medical Center Drive, Healthcare City', accent: '#2563EB', bg: '#EFF6FF', border: '#BFDBFE' },
-                { Icon: IconPhone, label: 'Phone',     value: 'Appointments: +1 (800) 555-0100',           accent: '#059669', bg: '#ECFDF5', border: '#A7F3D0' },
-                { Icon: IconMail,  label: 'Email',     value: 'appointments@patilhospital.com',             accent: '#7C3AED', bg: '#F5F3FF', border: '#DDD6FE' },
-                { Icon: IconClock, label: 'OPD Hours', value: 'Mon – Sat · 8 AM – 8 PM  |  Emergency 24/7', accent: '#D97706', bg: '#FFFBEB', border: '#FDE68A' },
-              ].map(({ Icon, label, value, accent, bg, border }, i) => (
-                <div
-                  key={label}
-                  className="flex items-center gap-5 rounded-2xl border px-6 py-5 bg-white/80 backdrop-blur-sm shadow-[0_2px_12px_rgba(15,23,42,0.07)] hover:shadow-[0_4px_20px_rgba(15,23,42,0.12)] transition-shadow duration-200"
-                  style={{ borderColor: border, transform: `translateX(${i % 2 === 0 ? '0px' : '24px'})` }}
-                >
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: bg, color: accent }}>
-                    <Icon />
-                  </div>
+            {/* RIGHT — contact card */}
+            <div className="lg:col-span-6">
+              <div className="overflow-hidden rounded-3xl bg-white shadow-[0_30px_70px_-25px_rgba(15,61,51,0.35)] ring-1 ring-emerald-950/10">
+                {/* card header */}
+                <div className="flex items-center justify-between gap-4 px-7 py-5" style={{ background: '#0F3D33' }}>
                   <div>
-                    <p className="text-slate-400 text-[10px] font-semibold uppercase tracking-widest mb-0.5">{label}</p>
-                    <p className="text-slate-700 text-sm font-medium">{value}</p>
+                    <p className="text-base font-semibold text-white">Visit or call us</p>
+                    <p className="text-xs text-emerald-100/70">We&apos;re easy to reach</p>
                   </div>
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-emerald-100">
+                    <IconPin />
+                  </span>
                 </div>
-              ))}
+
+                {/* rows */}
+                <div className="divide-y divide-stone-100">
+                  {[
+                    { Icon: IconPin,   label: 'Address',   value: '123 Medical Center Drive, Healthcare City', href: MAP_URL },
+                    { Icon: IconPhone, label: 'Phone',     value: 'Appointments: +1 (800) 555-0100', href: 'tel:+18005550100' },
+                    { Icon: IconMail,  label: 'Email',     value: 'appointments@patilhospital.com', href: 'mailto:appointments@patilhospital.com' },
+                    { Icon: IconClock, label: 'OPD hours', value: 'Mon – Sat, 8 AM – 8 PM · Emergency 24/7' },
+                  ].map(({ Icon, label, value, href }) => (
+                    <div key={label} className="flex items-center gap-4 px-7 py-4">
+                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-800">
+                        <Icon />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs text-stone-500">{label}</p>
+                        {href ? (
+                          <a
+                            href={href}
+                            {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                            className="text-sm font-medium text-stone-900 underline-offset-4 transition-colors hover:text-emerald-800 hover:underline"
+                          >
+                            {value}
+                          </a>
+                        ) : (
+                          <p className="text-sm font-medium text-stone-900">{value}</p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* directions */}
+                <div className="border-t border-stone-100 bg-stone-50 px-7 py-4">
+                  <a
+                    href={MAP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-900/20 bg-white py-3 text-sm font-semibold text-[#0F3D33] transition hover:bg-[#0F3D33] hover:text-white"
+                  >
+                    Get directions
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* bottom fade into next section */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#F0F4F8] to-transparent pointer-events-none" />
+        {/* curved edge into the next section (#F0F4F8) */}
+        <div className="absolute bottom-0 left-0 w-full leading-none" style={{ marginBottom: '-2px' }}>
+          <svg
+            viewBox="0 0 1440 120"
+            preserveAspectRatio="none"
+            className="block w-full"
+            style={{ height: '100px' }}
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M0,120 L0,60 C200,100 380,20 580,45 C780,70 960,115 1140,90 C1280,70 1360,40 1440,55 L1440,120 Z"
+              fill="#F0F4F8"
+            />
+            <path
+              d="M0,60 C200,100 380,20 580,45 C780,70 960,115 1140,90 C1280,70 1360,40 1440,55"
+              fill="none"
+              stroke="#0F3D33"
+              strokeOpacity="0.25"
+              strokeWidth="1.5"
+            />
+          </svg>
+        </div>
       </section>
 
       {/* ══════════════════════════════════════════════
@@ -201,11 +243,11 @@ export default function ContactPage() {
 
               {/* info cards */}
               {[
-                { Icon: IconPin,   title: 'Address',      lines: ['123 Medical Center Drive', 'Healthcare City, HC 45678'], accent: '#EFF6FF', border: '#DBEAFE', icon: '#3B82F6' },
+                { Icon: IconPin,   title: 'Address',      lines: ['123 Medical Center Drive', 'Healthcare City, HC 45678'], accent: '#EFF6FF', border: '#DBEAFE', icon: '#3B82F6', href: MAP_URL },
                 { Icon: IconPhone, title: 'Phone Numbers', lines: ['Emergency: +1 (800) 555-0199', 'Appointments: +1 (800) 555-0100'], accent: '#FFF7ED', border: '#FED7AA', icon: '#F97316' },
                 { Icon: IconMail,  title: 'Email',         lines: ['info@patilhospital.com', 'appointments@patilhospital.com'], accent: '#F0FDF4', border: '#BBF7D0', icon: '#16A34A' },
                 { Icon: IconClock, title: 'Hours',         lines: ['Emergency: 24/7', 'OPD: Mon–Sat 8AM–8PM', 'Diagnostics: 24/7'], accent: '#FFF1F2', border: '#FECDD3', icon: '#E11D48' },
-              ].map(({ Icon, title, lines, accent, border, icon }) => (
+              ].map(({ Icon, title, lines, accent, border, icon, href }) => (
                 <div
                   key={title}
                   className="rounded-2xl border p-5 flex gap-4 shadow-[0_1px_4px_rgba(10,22,40,0.06)] hover:shadow-[0_4px_20px_rgba(10,22,40,0.10)] transition-shadow duration-300"
@@ -217,6 +259,16 @@ export default function ContactPage() {
                   <div>
                     <p className="text-[#0A1628] text-sm font-semibold mb-1">{title}</p>
                     {lines.map((l) => <p key={l} className="text-gray-500 text-xs leading-relaxed">{l}</p>)}
+                    {href && (
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2 inline-block text-xs font-semibold text-[#185FA5] hover:underline"
+                      >
+                        Get directions →
+                      </a>
+                    )}
                   </div>
                 </div>
               ))}
@@ -241,7 +293,10 @@ export default function ContactPage() {
             </aside>
 
             {/* ── Appointment form ── */}
-            <div className="bg-white rounded-[28px] border border-slate-100 shadow-[0_4px_40px_rgba(10,22,40,0.08)] overflow-hidden">
+            <div
+              id="appointment"
+              className="scroll-mt-24 bg-white rounded-[28px] border border-slate-100 shadow-[0_4px_40px_rgba(10,22,40,0.08)] overflow-hidden"
+            >
 
               {/* form header band */}
               <div className="px-10 pt-10 pb-7 border-b border-slate-100">
@@ -376,7 +431,7 @@ export default function ContactPage() {
           <div className="w-12 h-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-2xl mx-auto mb-3 shadow-sm">📍</div>
           <p className="text-[#0A1628] font-semibold text-sm">123 Medical Center Drive, Healthcare City</p>
           <a
-            href="https://maps.google.com"
+            href={MAP_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="text-[#185FA5] text-sm hover:underline mt-1 inline-block"

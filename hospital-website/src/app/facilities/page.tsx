@@ -95,7 +95,7 @@ export default function FacilitiesPage() {
         {/* ── Background image ── */}
         <div className="absolute inset-0">
           <Image
-            src="/images/facility1.jpeg"
+            src="/images/OT.jpg"
             alt="Modern hospital facility interior"
             fill
             priority

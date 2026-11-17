@@ -1,13 +1,10 @@
 'use client'
 
-import type { Metadata } from 'next'
 import Link from 'next/link'
-import { useState } from 'react'
+
 
 // ── DATA ────────────────────────────────────────────────────────────────────
 
-const stats = [
-]
 
 const services = [
   {
@@ -66,93 +63,6 @@ const services = [
   },
 ]
 
-const doctors = [
-  {
-    name: 'Dr. Aanya Sharma',
-    specialty: 'Chief Cardiologist',
-    exp: '18 yrs',
-    initials: 'AS',
-    bg: 'bg-red-100',
-    text: 'text-red-700',
-    avatarHex: { bg: '#FEE2E2', color: '#991B1B' },
-    patients: '4,200+',
-    languages: 'English, Hindi',
-    fee: '₹800',
-    badges: [
-      { label: 'Cardiologist', style: 'bg-blue-50 text-blue-700' },
-      { label: 'NABH Certified', style: 'bg-green-50 text-green-700' },
-      { label: '18 yrs exp', style: 'bg-amber-50 text-amber-700' },
-    ],
-    tags: ['Interventional cardiology', 'Heart failure', 'Echocardiography', 'Arrhythmia', 'Preventive care'],
-    bio: "Dr. Sharma is a nationally recognised cardiologist with 18 years of experience in interventional and preventive cardiac care. She leads Patil Hospital's cardiac catheterisation lab and has performed over 3,000 successful procedures.",
-    available: true,
-    schedule: 'Mon – Sat, 10 AM – 2 PM',
-  },
-  {
-    name: 'Dr. Marcus Chen',
-    specialty: 'Head of Neurology',
-    exp: '15 yrs',
-    initials: 'MC',
-    bg: 'bg-purple-100',
-    text: 'text-purple-700',
-    avatarHex: { bg: '#EDE9FE', color: '#5B21B6' },
-    patients: '3,500+',
-    languages: 'English, Marathi',
-    fee: '₹900',
-    badges: [
-      { label: 'Neurologist', style: 'bg-blue-50 text-blue-700' },
-      { label: 'NABH Certified', style: 'bg-green-50 text-green-700' },
-      { label: '15 yrs exp', style: 'bg-amber-50 text-amber-700' },
-    ],
-    tags: ['Epilepsy', 'Stroke management', 'Movement disorders', 'Neuropathy', 'Headache clinic'],
-    bio: 'Dr. Chen leads the Neurology Department with a focus on stroke prevention, epilepsy management, and neurodegenerative diseases.',
-    available: true,
-    schedule: 'Mon – Fri, 11 AM – 3 PM',
-  },
-  {
-    name: 'Dr. Priya Nair',
-    specialty: 'Pediatric Specialist',
-    exp: '12 yrs',
-    initials: 'PN',
-    bg: 'bg-yellow-100',
-    text: 'text-yellow-700',
-    avatarHex: { bg: '#FEF9C3', color: '#854D0E' },
-    patients: '5,800+',
-    languages: 'English, Hindi, Marathi',
-    fee: '₹600',
-    badges: [
-      { label: 'Pediatrician', style: 'bg-blue-50 text-blue-700' },
-      { label: 'NABH Certified', style: 'bg-green-50 text-green-700' },
-      { label: '12 yrs exp', style: 'bg-amber-50 text-amber-700' },
-    ],
-    tags: ['Newborn care', 'Child development', 'Vaccinations', 'Respiratory illness', 'Nutrition'],
-    bio: 'Dr. Nair is a compassionate paediatrician dedicated to child health from newborn to adolescence. She trained at KEM Hospital Mumbai.',
-    available: false,
-    schedule: 'Tue – Sat, 9 AM – 1 PM',
-  },
-  {
-    name: 'Dr. James Okafor',
-    specialty: 'Orthopedic Surgeon',
-    exp: '20 yrs',
-    initials: 'JO',
-    bg: 'bg-blue-100',
-    text: 'text-blue-700',
-    avatarHex: { bg: '#DBEAFE', color: '#1E40AF' },
-    patients: '6,100+',
-    languages: 'English, Hindi',
-    fee: '₹1,000',
-    badges: [
-      { label: 'Orthopedic', style: 'bg-blue-50 text-blue-700' },
-      { label: 'NABH Certified', style: 'bg-green-50 text-green-700' },
-      { label: '20 yrs exp', style: 'bg-amber-50 text-amber-700' },
-    ],
-    tags: ['Joint replacement', 'Sports injuries', 'Spine surgery', 'Trauma', 'Arthroscopy'],
-    bio: 'Dr. Okafor is a senior orthopedic surgeon specialising in minimally invasive joint replacement and complex spinal procedures.',
-    available: true,
-    schedule: 'Mon – Thu, 12 PM – 5 PM',
-  },
-]
-
 const testimonials = [
   { name: 'Sarah M.', text: 'The cardiac team at Patil Hospital literally saved my life. The doctors were brilliant and the nurses were incredibly attentive throughout my recovery.', rating: 5 },
   { name: 'Robert K.', text: "My mother's hip replacement was a complete success. The orthopedic team's expertise and the rehab facilities are second to none.", rating: 5 },
@@ -173,164 +83,6 @@ function Stars({ count = 5, size = 'w-3.5 h-3.5' }: { count?: number; size?: str
   )
 }
 
-// ── DOCTOR MODAL ─────────────────────────────────────────────────────────────
-
-type Doctor = (typeof doctors)[number]
-
-function DoctorModal({ doctor, onClose }: { doctor: Doctor; onClose: () => void }) {
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4"
-      onClick={(e) => e.target === e.currentTarget && onClose()}
-      role="dialog"
-      aria-modal="true"
-    >
-      <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-10"
-        >
-          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        <div className="px-6 pt-8 pb-6" style={{ background: `linear-gradient(135deg, ${doctor.avatarHex.bg} 0%, #fff 100%)` }}>
-          <div className="flex items-start gap-4">
-            <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-bold flex-shrink-0 shadow-sm" style={{ background: doctor.avatarHex.bg, color: doctor.avatarHex.color }}>
-              {doctor.initials}
-            </div>
-            <div className="flex-1 min-w-0 pt-1">
-              <h3 className="text-xl font-bold text-[#0A1628] truncate">{doctor.name}</h3>
-              <p className="text-[#0891B2] text-sm font-semibold mb-2">{doctor.specialty}</p>
-              <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full ${doctor.available ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-500'}`}>
-                <span className={`w-1.5 h-1.5 rounded-full ${doctor.available ? 'bg-emerald-500 animate-pulse' : 'bg-gray-400'}`} />
-                {doctor.available ? 'Available for consultation' : 'Currently unavailable'}
-              </span>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2 mt-4">
-            {doctor.badges.map((b) => (
-              <span key={b.label} className={`text-xs font-semibold px-3 py-1 rounded-full ${b.style}`}>{b.label}</span>
-            ))}
-          </div>
-        </div>
-        <div className="px-6 pb-6 space-y-4">
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              { label: 'Experience', value: `${doctor.exp} experience`, icon: '🏅' },
-              { label: 'Patients treated', value: doctor.patients, icon: '👥' },
-              { label: 'Languages', value: doctor.languages, icon: '🌐' },
-              { label: 'Consult fee', value: doctor.fee, icon: '💳' },
-            ].map((item) => (
-              <div key={item.label} className="bg-gray-50 rounded-xl p-3">
-                <p className="text-xs text-gray-400 font-medium mb-0.5 uppercase tracking-wide">{item.label}</p>
-                <p className="text-sm font-semibold text-[#0A1628]">{item.icon} {item.value}</p>
-              </div>
-            ))}
-          </div>
-          <div className="flex items-center gap-2 text-sm text-gray-500 bg-blue-50 rounded-xl px-4 py-2.5">
-            <svg className="w-4 h-4 text-[#0891B2] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <span className="font-medium text-[#0891B2]">OPD Schedule:</span>
-            <span>{doctor.schedule}</span>
-          </div>
-          <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Areas of expertise</p>
-            <div className="flex flex-wrap gap-2">
-              {doctor.tags.map((tag) => (
-                <span key={tag} className="text-xs text-gray-600 border border-gray-200 rounded-full px-3 py-1">{tag}</span>
-              ))}
-            </div>
-          </div>
-          <p className="text-sm text-gray-500 leading-relaxed">{doctor.bio}</p>
-          <div className="flex gap-3 pt-1">
-            <Link href="/contact" onClick={onClose} className="flex-1 bg-[#0A1628] hover:bg-[#0C1F3A] text-white text-center text-sm font-bold py-3 rounded-xl transition-colors">
-              Book Consultation
-            </Link>
-            <button onClick={onClose} className="flex-1 border border-gray-200 text-gray-600 hover:bg-gray-50 text-sm font-semibold py-3 rounded-xl transition-colors">
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// ── DOCTORS SPOTLIGHT ─────────────────────────────────────────────────────────
-
-// function DoctorsSpotlight() {
-//   const [current, setCurrent] = useState(0)
-//   const [modalOpen, setModalOpen] = useState(false)
-//   const doc = doctors[current]
-//   const prev = () => setCurrent((c) => (c - 1 + doctors.length) % doctors.length)
-//   const next = () => setCurrent((c) => (c + 1) % doctors.length)
-
-//   return (
-//     <section className="py-24 bg-[#F8FAFC]" aria-label="Featured Doctors">
-//       <div className="max-w-7xl mx-auto px-4">
-//         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-//           <div>
-//             <span className="inline-block text-[11px] font-bold tracking-[0.18em] uppercase text-[#0891B2] bg-[#E0F2FE] px-4 py-1.5 rounded-full mb-4">Our Specialists</span>
-//             <h2 className="text-3xl font-extrabold text-[#0A1628] tracking-tight">Meet the Doctors<br />Behind Your Care</h2>
-//           </div>
-//           <Link href="/doctors" className="inline-flex items-center gap-2 border border-gray-200 text-[#0A1628] font-bold text-sm px-6 py-3 rounded-xl hover:bg-gray-50 transition-colors">
-//             View All Doctors
-//             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-//             </svg>
-//           </Link>
-//         </div>
-//         <div className="flex flex-col items-center gap-8">
-//           <div
-//             className="bg-white border border-gray-100 rounded-2xl p-8 text-center cursor-pointer w-full max-w-xs hover:shadow-lg transition-shadow duration-300"
-//             onClick={() => setModalOpen(true)}
-//           >
-//             <div className="w-24 h-24 rounded-2xl flex items-center justify-center text-3xl font-bold mx-auto mb-5" style={{ background: doc.avatarHex.bg, color: doc.avatarHex.color }}>
-//               {doc.initials}
-//             </div>
-//             <h3 className="font-bold text-[#0A1628] text-xl mb-1">{doc.name}</h3>
-//             <p className="text-[#0891B2] text-sm font-semibold mb-1">{doc.specialty}</p>
-//             <p className="text-gray-400 text-xs mb-3">{doc.exp} Experience</p>
-//             <div className="flex justify-center mb-4"><Stars /></div>
-//             <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full mb-5 ${doc.available ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-500'}`}>
-//               <span className={`w-1.5 h-1.5 rounded-full ${doc.available ? 'bg-emerald-500 animate-pulse' : 'bg-gray-400'}`} />
-//               {doc.available ? 'Available' : 'Unavailable'}
-//             </span>
-//             <div className="flex flex-wrap justify-center gap-1.5 mb-5">
-//               {doc.tags.slice(0, 2).map((tag) => (
-//                 <span key={tag} className="text-xs text-gray-500 border border-gray-200 rounded-full px-2.5 py-0.5">{tag}</span>
-//               ))}
-//             </div>
-//             <button className="w-full text-center text-xs font-semibold text-[#0891B2] border border-[#BAE6FD] rounded-xl py-2.5 hover:bg-[#F0F9FF] transition-colors">
-//               View Profile & Book
-//             </button>
-//           </div>
-//           <div className="flex items-center gap-5">
-//             <button onClick={prev} className="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center hover:bg-gray-50 transition-colors shadow-sm">
-//               <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-//               </svg>
-//             </button>
-//             <div className="flex gap-2">
-//               {doctors.map((_, i) => (
-//                 <button key={i} onClick={() => setCurrent(i)} className={`rounded-full transition-all duration-300 ${i === current ? 'w-6 h-2.5 bg-[#0891B2]' : 'w-2.5 h-2.5 bg-gray-300 hover:bg-gray-400'}`} />
-//               ))}
-//             </div>
-//             <button onClick={next} className="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center hover:bg-gray-50 transition-colors shadow-sm">
-//               <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-//               </svg>
-//             </button>
-//           </div>
-//           <p className="text-xs text-gray-400 font-medium">{current + 1} / {doctors.length} specialists</p>
-//         </div>
-//       </div>
-//       {modalOpen && <DoctorModal doctor={doc} onClose={() => setModalOpen(false)} />}
-//     </section>
-//   )
-// }
 function DoctorsSpotlight() {
   return (
     <section className="py-24 bg-[#F8FAFC]">
@@ -347,7 +99,7 @@ function DoctorsSpotlight() {
               </span>
 
               <h2 className="text-4xl font-bold text-[#0A1628] mb-2">
-                Dr. Aanya Sharma
+                Dr. Shamsundar patil
               </h2>
 
               <p className="text-xl text-[#0891B2] font-semibold mb-6">
@@ -359,17 +111,13 @@ function DoctorsSpotlight() {
                   18 Years Experience
                 </span>
 
-                <span className="bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold">
-                  4200+ Patients
-                </span>
-
                 <span className="bg-yellow-50 text-yellow-700 px-4 py-2 rounded-full text-sm font-semibold">
                   NABH Certified
                 </span>
               </div>
 
               <p className="text-gray-600 text-lg leading-8 mb-8">
-                Dr. Aanya Sharma is a nationally recognised cardiologist with
+                Dr. shamsundar patil is a nationally recognised cardiologist with
                 more than 18 years of experience in interventional and preventive
                 cardiac care. She has successfully performed thousands of procedures
                 and leads the Cardiology Department at Patil Hospital.
@@ -426,8 +174,8 @@ function DoctorsSpotlight() {
             <div className="flex items-center justify-center bg-[#F8FAFC] p-8">
 
               <img
-                src="/doctors/dr-aanya-sharma.jpg"
-                alt="Dr. Aanya Sharma"
+                src="/images/Doctor-img.png"
+                alt="Dr. Shamsundar patil"
                 className="w-[400px] h-[500px] object-cover rounded-3xl shadow-2xl"
               />
 
@@ -516,20 +264,7 @@ export default function HomePage() {
                   </svg>
                 </Link>
               </div>
-
-              {/* Divider */}
-              <div className="w-full h-px bg-white/15 mb-7" />
-
-              {/* Stats row — reduced text */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-5 gap-y-4">
-                {stats.map((s) => (
-                  <div key={s.label} className="flex flex-col gap-0.5">
-                    <span className="text-3xl md:text-4xl font-extrabold text-white leading-none">{s.value}</span>
-                    <span className="text-xs text-white/60 leading-snug">{s.label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+</div>
 
             {/* ── RIGHT: Redesigned professional info card ── */}
             <div className="hidden lg:block">

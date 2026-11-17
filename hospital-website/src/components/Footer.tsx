@@ -223,14 +223,34 @@ export default function Footer() {
                 'linear-gradient(90deg, transparent 0%, rgba(125,211,252,0.0) 10%, rgba(186,230,253,0.4) 35%, rgba(224,242,254,0.6) 50%, rgba(186,230,253,0.4) 65%, rgba(125,211,252,0.0) 90%, transparent 100%)',
             }}
           />
-          <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-gray-500 text-sm">
-              © {new Date().getFullYear()} Patil Hospital. All rights reserved.
-            </p>
-            <div className="flex gap-6">
-              <a href="#" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">Privacy Policy</a>
-              <a href="#" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">Terms of Service</a>
-              <a href="#" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">Sitemap</a>
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <p className="text-gray-500 text-sm">
+                © {new Date().getFullYear()} Patil Hospital. All rights reserved.
+              </p>
+              <div className="flex gap-6">
+                <a href="#" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">Privacy Policy</a>
+                <a href="#" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">Terms of Service</a>
+                <a href="#" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">Sitemap</a>
+              </div>
+            </div>
+
+            {/* Developer credit */}
+            <div
+              className="mt-4 pt-4 text-center"
+              style={{ borderTop: '1px solid rgba(125, 211, 252, 0.08)' }}
+            >
+              <p className="text-gray-500 text-xs tracking-wide">
+                Designed &amp; Developed by{' '}
+                <a
+                  href="https://www.codewinxitsolution.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-sky-300 hover:text-sky-200 tracking-wider transition-colors"
+                >
+                  CODEWINX IT SOLUTION
+                </a>
+              </p>
             </div>
           </div>
         </div>

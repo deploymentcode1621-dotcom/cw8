@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import Image from "next/image"
+import Image from 'next/image'
 
 const services = [
   { name: 'Cardiology', href: '/services/cardiology', icon: '❤️' },
@@ -26,26 +26,70 @@ const navLinks = [
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
+  // Separate state so the desktop hover dropdown and the mobile accordion never interfere
   const [isServicesOpen, setIsServicesOpen] = useState(false)
+  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false)
+  const servicesRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
 
   const isHeroPage = pathname === '/'
+  const isServicesActive = pathname.startsWith('/services')
 
+  // Scroll state
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 60)
+    handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const isTransparent = isHeroPage && !isScrolled
+  // Close everything when the route changes
+  useEffect(() => {
+    setIsServicesOpen(false)
+    setIsMobileOpen(false)
+    setIsMobileServicesOpen(false)
+  }, [pathname])
+
+  // Close the desktop dropdown on outside click / touch and on Escape
+  useEffect(() => {
+    if (!isServicesOpen) return
+    const onPointerDown = (e: MouseEvent | TouchEvent) => {
+      if (servicesRef.current && !servicesRef.current.contains(e.target as Node)) {
+        setIsServicesOpen(false)
+      }
+    }
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsServicesOpen(false)
+    }
+    document.addEventListener('mousedown', onPointerDown)
+    document.addEventListener('touchstart', onPointerDown)
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('mousedown', onPointerDown)
+      document.removeEventListener('touchstart', onPointerDown)
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [isServicesOpen])
+
+  // Transparent only on the home hero, and never while the mobile menu is open
+  const isTransparent = isHeroPage && !isScrolled && !isMobileOpen
 
   return (
     <>
+      <style>{`
+        @keyframes navDropIn {
+          from { opacity: 0; transform: translateY(-6px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .nav-dropdown-in { animation: navDropIn 0.18s ease-out both; }
+        @media (prefers-reduced-motion: reduce) {
+          .nav-dropdown-in { animation: none; }
+        }
+      `}</style>
+
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isTransparent
-            ? 'bg-transparent'
-            : 'bg-white/95 backdrop-blur-md shadow-lg'
+          isTransparent ? 'bg-transparent' : 'bg-white/95 backdrop-blur-md shadow-lg'
         }`}
       >
         {!isTransparent && (
@@ -97,15 +141,22 @@ export default function Navbar() {
                 link.hasDropdown ? (
                   <div
                     key={link.name}
+                    ref={servicesRef}
                     className="relative"
                     onMouseEnter={() => setIsServicesOpen(true)}
                     onMouseLeave={() => setIsServicesOpen(false)}
                   >
                     <button
+                      type="button"
+                      aria-haspopup="true"
+                      aria-expanded={isServicesOpen}
+                      onClick={() => setIsServicesOpen((o) => !o)}
                       className={`px-4 py-2 text-sm font-medium flex items-center gap-1 rounded-lg transition-all duration-200 ${
                         isTransparent
-                          ? 'text-white/90 hover:text-white hover:bg-white/15'
-                          : pathname.startsWith('/services')
+                          ? isServicesActive || isServicesOpen
+                            ? 'text-white bg-white/20'
+                            : 'text-white/90 hover:text-white hover:bg-white/15'
+                          : isServicesActive || isServicesOpen
                           ? 'text-primary-600 bg-primary-50'
                           : 'text-gray-700 hover:bg-gray-50'
                       }`}
@@ -116,27 +167,34 @@ export default function Navbar() {
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
+                        aria-hidden="true"
                       >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
 
                     {isServicesOpen && (
-                      <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 p-2 animate-fade-in">
-                        {services.map((s) => (
-                          <Link
-                            key={s.href}
-                            href={s.href}
-                            className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-                              pathname === s.href
-                                ? 'bg-primary-50 text-primary-700'
-                                : 'text-gray-700 hover:bg-gray-50'
-                            }`}
-                          >
-                            <span className="text-base">{s.icon}</span>
-                            {s.name}
-                          </Link>
-                        ))}
+                      // pt-2 (padding, not margin) keeps the hover area continuous
+                      // between the button and the panel so the menu doesn't close
+                      // while the mouse travels down to it.
+                      <div className="absolute top-full left-0 pt-2 w-60 z-50 nav-dropdown-in">
+                        <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-2">
+                          {services.map((s) => (
+                            <Link
+                              key={s.href}
+                              href={s.href}
+                              onClick={() => setIsServicesOpen(false)}
+                              className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                                pathname === s.href
+                                  ? 'bg-primary-50 text-primary-700'
+                                  : 'text-gray-700 hover:bg-gray-50'
+                              }`}
+                            >
+                              <span className="text-base">{s.icon}</span>
+                              {s.name}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -162,8 +220,6 @@ export default function Navbar() {
 
             {/* ── CTA buttons ── */}
             <div className="hidden lg:flex items-center gap-3">
-
-              {/* Book Appointment */}
               {isTransparent ? (
                 <Link
                   href="/contact"
@@ -180,12 +236,15 @@ export default function Navbar() {
 
             {/* ── Mobile hamburger ── */}
             <button
-              onClick={() => setIsMobileOpen(!isMobileOpen)}
+              type="button"
+              aria-label={isMobileOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isMobileOpen}
+              onClick={() => setIsMobileOpen((o) => !o)}
               className={`lg:hidden p-2 rounded-xl transition-colors ${
                 isTransparent ? 'hover:bg-white/15 text-white' : 'hover:bg-gray-100 text-gray-700'
               }`}
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 {isMobileOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
@@ -198,37 +257,34 @@ export default function Navbar() {
 
         {/* ── Mobile menu ── */}
         {isMobileOpen && (
-          <div
-            className={`lg:hidden border-t px-4 pb-6 pt-4 ${
-              isTransparent
-                ? 'bg-black/60 backdrop-blur-md border-white/10'
-                : 'bg-white border-gray-100'
-            }`}
-          >
+          <div className="lg:hidden border-t border-gray-100 bg-white px-4 pb-6 pt-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
             <div className="space-y-1">
               {navLinks.map((link) => (
                 <div key={link.name}>
                   {link.hasDropdown ? (
                     <>
                       <button
-                        onClick={() => setIsServicesOpen(!isServicesOpen)}
+                        type="button"
+                        aria-expanded={isMobileServicesOpen}
+                        onClick={() => setIsMobileServicesOpen((o) => !o)}
                         className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
-                          isTransparent
-                            ? 'text-white/90 hover:bg-white/10'
+                          isServicesActive
+                            ? 'bg-primary-50 text-primary-700'
                             : 'text-gray-700 hover:bg-gray-50'
                         }`}
                       >
                         Services
                         <svg
-                          className={`w-4 h-4 transition-transform ${isServicesOpen ? 'rotate-180' : ''}`}
+                          className={`w-4 h-4 transition-transform ${isMobileServicesOpen ? 'rotate-180' : ''}`}
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
+                          aria-hidden="true"
                         >
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       </button>
-                      {isServicesOpen && (
+                      {isMobileServicesOpen && (
                         <div className="pl-4 mt-1 space-y-1">
                           {services.map((s) => (
                             <Link
@@ -236,8 +292,8 @@ export default function Navbar() {
                               href={s.href}
                               onClick={() => setIsMobileOpen(false)}
                               className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-colors ${
-                                isTransparent
-                                  ? 'text-white/80 hover:bg-white/10 hover:text-white'
+                                pathname === s.href
+                                  ? 'bg-primary-50 text-primary-700'
                                   : 'text-gray-600 hover:bg-primary-50 hover:text-primary-700'
                               }`}
                             >
@@ -252,11 +308,7 @@ export default function Navbar() {
                       href={link.href}
                       onClick={() => setIsMobileOpen(false)}
                       className={`block px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
-                        isTransparent
-                          ? pathname === link.href
-                            ? 'bg-white/20 text-white'
-                            : 'text-white/90 hover:bg-white/10 hover:text-white'
-                          : pathname === link.href
+                        pathname === link.href
                           ? 'bg-primary-50 text-primary-700'
                           : 'text-gray-700 hover:bg-gray-50'
                       }`}

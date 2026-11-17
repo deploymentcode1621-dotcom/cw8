@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import {
-  Brain, Activity, Zap, Eye, Clock, Users, Award,
-  ChevronRight, ArrowRight, Phone, Calendar,
-  CheckCircle, Plus, Minus, Star,
+  Brain, Activity, Zap, Eye, Users,
+  ArrowRight, Phone, Calendar, Plus, Star,
 } from 'lucide-react'
 
 export const metadata: Metadata = {
@@ -14,13 +13,6 @@ export const metadata: Metadata = {
 }
 
 /* ─── data ─── */
-const stats = [
-  { value: '5,000+', label: 'Neuro Cases Annually',  icon: Brain },
-  { value: '12+',    label: 'Expert Neurologists',    icon: Users },
-  { value: '3T MRI', label: 'Advanced Scanner',       icon: Activity },
-  { value: '24/7',   label: 'Stroke Emergency Unit',  icon: Clock },
-]
-
 const conditions = [
   {
     icon: Zap,
@@ -130,11 +122,95 @@ const faqs = [
   },
 ]
 
+/* ─── hero illustration: neural-network rings ─── */
+const CX = 240
+const CY = 240
+// inner ring (0-3), middle ring (4-8), outer ring (9-13)
+const NODES = [
+  { r: 92,  a: 15 },  { r: 92,  a: 100 }, { r: 92,  a: 200 }, { r: 92,  a: 290 },
+  { r: 152, a: 50 },  { r: 152, a: 130 }, { r: 152, a: 215 }, { r: 152, a: 320 }, { r: 152, a: 0 },
+  { r: 208, a: 25 },  { r: 208, a: 85 },  { r: 208, a: 160 }, { r: 208, a: 240 }, { r: 208, a: 300 },
+]
+const EDGES: [number, number][] = [
+  [0, 4], [0, 8], [1, 4], [1, 5], [2, 6], [2, 5], [3, 7], [3, 8],
+  [4, 10], [4, 9], [5, 11], [5, 10], [6, 12], [6, 11], [7, 13], [7, 12], [8, 9], [8, 13],
+]
+const ACCENT_NODES = [4, 11]
+
+const pt = (n: { r: number; a: number }) => ({
+  x: CX + n.r * Math.cos((n.a * Math.PI) / 180),
+  y: CY + n.r * Math.sin((n.a * Math.PI) / 180),
+})
+
+function NeuroIllustration() {
+  const pts = NODES.map(pt)
+  return (
+    <svg viewBox="0 0 480 480" width="100%" height="100%" aria-hidden="true" style={{ display: 'block' }}>
+      <defs>
+        <radialGradient id="nCore" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.55" />
+          <stop offset="60%" stopColor="#3B37A0" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="#1E1B6A" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+
+      {/* soft glow behind everything */}
+      <circle cx={CX} cy={CY} r="235" fill="url(#nCore)" />
+
+      <g className="neuro-spin">
+        {/* rings */}
+        {[92, 152, 208].map((r) => (
+          <circle
+            key={r}
+            cx={CX} cy={CY} r={r}
+            fill="none"
+            stroke="rgba(200,185,255,.22)"
+            strokeWidth="1"
+            strokeDasharray="3 7"
+          />
+        ))}
+
+        {/* centre → inner ring */}
+        {pts.slice(0, 4).map((p, i) => (
+          <line key={`c${i}`} x1={CX} y1={CY} x2={p.x} y2={p.y} stroke="rgba(200,185,255,.3)" strokeWidth="1" />
+        ))}
+
+        {/* ring-to-ring connections */}
+        {EDGES.map(([a, b], i) => (
+          <line
+            key={`e${i}`}
+            x1={pts[a].x} y1={pts[a].y}
+            x2={pts[b].x} y2={pts[b].y}
+            stroke="rgba(200,185,255,.28)"
+            strokeWidth="1"
+          />
+        ))}
+
+        {/* nodes */}
+        {pts.map((p, i) => {
+          const accent = ACCENT_NODES.includes(i)
+          const outer = i >= 9
+          return (
+            <g key={`n${i}`}>
+              <circle cx={p.x} cy={p.y} r={accent ? 11 : 8} fill={accent ? 'rgba(255,107,53,.2)' : 'rgba(200,185,255,.14)'} />
+              <circle cx={p.x} cy={p.y} r={accent ? 5.5 : outer ? 3.5 : 4.5} fill={accent ? '#FF6B35' : '#D6C9FF'} />
+            </g>
+          )
+        })}
+      </g>
+
+      {/* core disc */}
+      <circle cx={CX} cy={CY} r="52" fill="rgba(30,27,106,.85)" stroke="rgba(214,201,255,.45)" strokeWidth="1.5" />
+      <circle cx={CX} cy={CY} r="64" fill="none" stroke="rgba(139,92,246,.35)" strokeWidth="1" />
+    </svg>
+  )
+}
+
 export default function NeurologyPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
 
         :root {
           --navy:      #1E1B6A;
@@ -153,124 +229,99 @@ export default function NeurologyPage() {
         .nd { font-family:'Playfair Display',Georgia,serif; }
         .nb { font-family:'Inter',system-ui,sans-serif; }
 
-        /* ── HERO ── */
+        /* ── HERO — navy gradient + neural illustration ── */
         .neuro-hero {
           position:relative;
-          min-height:96vh;
+          isolation:isolate;
+          min-height:clamp(500px,64vh,600px);
           display:flex;
-          flex-direction:column;
-          justify-content:flex-end;
+          align-items:center;
           overflow:hidden;
-          background:var(--navy);
+          background:linear-gradient(120deg,#17145A 0%,#1E1B6A 45%,#2E2A8C 100%);
         }
-        .neuro-hero-bg {
-          position:absolute;inset:0;
-          width:100%;height:100%;
-          object-fit:cover;object-position:center 25%;
-          opacity:.22;
-          z-index:0;
+        /* faint dot grid */
+        .neuro-hero-dots {
+          position:absolute;inset:0;z-index:-2;
+          background-image:radial-gradient(rgba(200,185,255,.14) 1px,transparent 1px);
+          background-size:28px 28px;
+          -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 35%,#000 100%);
+                  mask-image:linear-gradient(90deg,transparent 0%,#000 35%,#000 100%);
         }
-        .neuro-hero-veil {
-          position:absolute;inset:0;z-index:1;
-          background:
-            linear-gradient(180deg,rgba(30,27,106,.4) 0%,rgba(30,27,106,.78) 55%,rgba(30,27,106,.98) 100%),
-            linear-gradient(100deg,rgba(30,27,106,.9) 0%,rgba(30,27,106,.1) 60%,transparent 100%);
+        .neuro-hero-glow-a {
+          position:absolute;z-index:-1;pointer-events:none;
+          top:-160px;right:-80px;width:560px;height:560px;border-radius:50%;
+          background:radial-gradient(circle,rgba(139,92,246,.28) 0%,transparent 70%);
         }
-        /* purple brain-wave accent blob */
-        .neuro-blob {
-          position:absolute;
-          border-radius:50%;
-          pointer-events:none;
-          z-index:2;
+        .neuro-hero-glow-b {
+          position:absolute;z-index:-1;pointer-events:none;
+          bottom:-200px;left:-120px;width:480px;height:480px;border-radius:50%;
+          background:radial-gradient(circle,rgba(255,107,53,.12) 0%,transparent 70%);
         }
-        /* vertical accent line */
-        .neuro-rule {
-          position:absolute;
-          left:clamp(28px,4vw,64px);
-          top:0;bottom:0;width:1px;
-          background:linear-gradient(180deg,transparent 0%,rgba(139,92,246,.45) 30%,rgba(139,92,246,.45) 72%,transparent 100%);
-          z-index:3;pointer-events:none;
+        .neuro-hero-line {
+          position:absolute;left:0;right:0;bottom:0;height:3px;
+          background:linear-gradient(90deg,var(--coral) 0%,#8B5CF6 55%,transparent 100%);
         }
-        /* watermark */
-        .neuro-wm {
-          position:absolute;
-          bottom:-20px;right:-16px;
-          font-family:'Playfair Display',serif;
-          font-size:clamp(120px,18vw,220px);
-          font-weight:900;line-height:1;
-          color:rgba(139,92,246,.05);
-          pointer-events:none;user-select:none;
-          letter-spacing:-0.04em;z-index:2;
-          white-space:nowrap;
-        }
-        /* hero content */
         .neuro-hero-inner {
-          position:relative;z-index:4;
-          max-width:1280px;margin:0 auto;
-          width:100%;
-          padding:0 clamp(24px,5vw,80px) clamp(56px,7vh,88px);
+          position:relative;
+          max-width:1280px;margin:0 auto;width:100%;
+          padding:clamp(44px,6vh,72px) clamp(24px,5vw,80px);
           display:grid;
-          grid-template-columns:1fr 1fr;
-          gap:48px;
-          align-items:flex-end;
+          grid-template-columns:1.1fr .9fr;
+          gap:clamp(24px,4vw,56px);
+          align-items:center;
         }
-        @media(max-width:860px){
+        @media(max-width:900px){
           .neuro-hero-inner{grid-template-columns:1fr;}
-          .neuro-hero-right{display:none;}
+          .neuro-visual{display:none;}
         }
-        /* hero top breadcrumb area */
-        .neuro-hero-top {
-          position:relative;z-index:4;
-          max-width:1280px;margin:0 auto;
-          padding:32px clamp(24px,5vw,80px) 0;
-        }
-        /* tag pill */
+        .neuro-hero-copy { max-width:620px; }
+        /* label pill */
         .neuro-tag {
-          display:inline-flex;align-items:center;gap:8px;
-          background:rgba(139,92,246,.18);
-          border:1px solid rgba(139,92,246,.35);
-          border-radius:100px;
-          padding:6px 14px;
-          font-family:'Inter',sans-serif;
-          font-size:10px;font-weight:600;
-          letter-spacing:.18em;text-transform:uppercase;
-          color:rgba(200,185,255,.85);
-          margin-bottom:20px;
-        }
-        /* stat pills on hero */
-        .neuro-hero-stat {
-          display:flex;align-items:center;gap:14px;
-          background:rgba(255,255,255,.06);
-          backdrop-filter:blur(14px);
-          border:1px solid rgba(255,255,255,.1);
-          border-radius:14px;
-          padding:16px 20px;
-          transition:background .25s,border-color .25s;
-        }
-        .neuro-hero-stat:hover{
+          display:inline-flex;align-items:center;gap:9px;
           background:rgba(255,255,255,.1);
-          border-color:rgba(139,92,246,.35);
+          border:1px solid rgba(255,255,255,.25);
+          border-radius:100px;
+          padding:8px 18px;
+          font-family:'Inter',sans-serif;
+          font-size:11.5px;font-weight:600;
+          letter-spacing:.16em;text-transform:uppercase;
+          color:#F1ECFF;
+          margin-bottom:22px;
         }
-        /* wave */
-        .neuro-wave{display:block;width:100%;margin-bottom:-2px;}
-
-        /* ── STATS BAND ── */
-        .neuro-stats {
-          background:var(--navy2);
-          padding:0;
+        /* illustration */
+        .neuro-visual {
+          position:relative;
+          width:100%;max-width:470px;
+          aspect-ratio:1/1;
+          margin-left:auto;
         }
-        .neuro-stats-grid {
-          max-width:1280px;margin:0 auto;
-          display:grid;grid-template-columns:repeat(4,1fr);
+        .neuro-spin {
+          transform-origin:240px 240px;
+          animation:nspin 90s linear infinite;
         }
-        @media(max-width:700px){.neuro-stats-grid{grid-template-columns:repeat(2,1fr);}}
-        .neuro-stat-cell {
-          display:flex;flex-direction:column;align-items:center;justify-content:center;
-          padding:40px 20px;
-          border-right:1px solid rgba(139,92,246,.12);
-          text-align:center;
+        @keyframes nspin { to { transform:rotate(360deg); } }
+        .neuro-core-icon {
+          position:absolute;left:50%;top:50%;
+          width:84px;height:84px;margin:-42px 0 0 -42px;
+          display:flex;align-items:center;justify-content:center;
+          color:#E4DAFF;
         }
-        .neuro-stat-cell:last-child{border-right:none;}
+        .neuro-chip {
+          position:absolute;
+          display:flex;align-items:center;gap:12px;
+          background:rgba(255,255,255,.1);
+          backdrop-filter:blur(12px);
+          -webkit-backdrop-filter:blur(12px);
+          border:1px solid rgba(255,255,255,.22);
+          border-radius:16px;
+          padding:12px 18px 12px 12px;
+          box-shadow:0 18px 40px rgba(10,8,50,.35);
+        }
+        .neuro-chip-ico {
+          width:38px;height:38px;border-radius:11px;flex-shrink:0;
+          display:flex;align-items:center;justify-content:center;
+        }
+        @media(prefers-reduced-motion:reduce){ .neuro-spin{animation:none;} }
 
         /* ── SECTIONS ── */
         .neuro-section {
@@ -458,106 +509,51 @@ export default function NeurologyPage() {
         .nbtn-coral:hover{background:var(--coral-lt);transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,107,53,.35);}
         .nbtn-outline{
           display:inline-flex;align-items:center;gap:8px;
-          background:transparent;color:white;
+          background:rgba(255,255,255,.1);color:white;
           font-family:'Inter',sans-serif;
           font-size:.8rem;font-weight:600;
           letter-spacing:.08em;text-transform:uppercase;
           text-decoration:none;border-radius:10px;
           padding:14px 28px;
-          border:1.5px solid rgba(255,255,255,.2);
+          border:1.5px solid rgba(255,255,255,.4);
+          backdrop-filter:blur(6px);
           transition:all .25s;
         }
-        .nbtn-outline:hover{border-color:rgba(255,255,255,.5);transform:translateY(-2px);}
-
-        /* @keyframes pulse used in breadcrumb */
-        @keyframes ndrop{0%,100%{opacity:.3;transform:scaleY(1);}50%{opacity:.8;transform:scaleY(1.1);}}
+        .nbtn-outline:hover{background:white;color:var(--navy);border-color:white;transform:translateY(-2px);}
       `}</style>
 
       {/* ══════════════════════════════════════════
-          HERO
+          HERO — navy gradient + neural-network illustration
       ══════════════════════════════════════════ */}
       <section className="neuro-hero">
+        <div className="neuro-hero-dots" />
+        <div className="neuro-hero-glow-a" />
+        <div className="neuro-hero-glow-b" />
 
-        {/* bg photo — hospital / brain scan room */}
-        <img
-          className="neuro-hero-bg"
-          src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=2000&q=80"
-          alt=""
-          aria-hidden="true"
-        />
-        <div className="neuro-hero-veil" />
-
-        {/* purple glow blobs */}
-        <div className="neuro-blob" style={{
-          width:500,height:500,
-          top:-200,right:-120,
-          background:'radial-gradient(circle,rgba(139,92,246,.14) 0%,transparent 70%)',
-        }}/>
-        <div className="neuro-blob" style={{
-          width:300,height:300,
-          bottom:80,left:'30%',
-          background:'radial-gradient(circle,rgba(59,55,160,.2) 0%,transparent 70%)',
-        }}/>
-
-        <div className="neuro-rule"/>
-        <span className="neuro-wm" aria-hidden="true">Neuro</span>
-
-        {/* breadcrumb */}
-        <div className="neuro-hero-top">
-          <nav aria-label="Breadcrumb">
-            <ol className="nb" style={{
-              display:'flex',alignItems:'center',gap:6,
-              listStyle:'none',margin:0,padding:0,
-              fontSize:'12px',fontWeight:400,
-              color:'rgba(255,255,255,.35)',
-            }}>
-              <li><Link href="/" style={{color:'rgba(255,255,255,.35)',textDecoration:'none'}}>Home</Link></li>
-              <li><ChevronRight size={12}/></li>
-              <li><Link href="/services" style={{color:'rgba(255,255,255,.35)',textDecoration:'none'}}>Services</Link></li>
-              <li><ChevronRight size={12}/></li>
-              <li style={{color:'rgba(255,255,255,.65)'}}>Neurology</li>
-            </ol>
-          </nav>
-        </div>
-
-        {/* main content */}
         <div className="neuro-hero-inner">
 
-          {/* left */}
-          <div>
-            <div className="neuro-tag nb">
-              <span style={{
-                display:'inline-block',width:6,height:6,borderRadius:'50%',
-                background:'rgba(200,185,255,.8)',
-              }}/>
-              Department of Neurology &amp; Neurosurgery
-            </div>
-
-            <div style={{
-              width:72,height:72,borderRadius:20,
-              background:'rgba(139,92,246,.2)',
-              border:'1px solid rgba(139,92,246,.3)',
-              display:'flex',alignItems:'center',justifyContent:'center',
-              marginBottom:24,fontSize:34,
-            }}>
-              🧠
+          {/* left: copy */}
+          <div className="neuro-hero-copy">
+            <div className="neuro-tag">
+              <span aria-hidden="true" style={{fontSize:16,lineHeight:1}}>🧠</span>
+              Neurology Department
             </div>
 
             <h1 className="nd" style={{
-              fontSize:'clamp(2.6rem,5.5vw,5rem)',
-              fontWeight:400,lineHeight:1.04,
+              fontSize:'clamp(2.2rem,4.4vw,3.7rem)',
+              fontWeight:600,lineHeight:1.1,
               letterSpacing:'-0.02em',color:'#fff',
-              marginBottom:10,
+              margin:'0 0 18px',
             }}>
-              Precision Care for<br/>
-              <em style={{fontStyle:'italic',color:'rgba(200,185,255,.85)',fontWeight:400}}>
+              Precision Care for
+              <span style={{display:'block',color:'#D6C9FF'}}>
                 Brain &amp; Nervous System
-              </em>
+              </span>
             </h1>
 
             <p className="nb" style={{
-              fontSize:'.95rem',fontWeight:300,lineHeight:1.9,
-              color:'rgba(255,255,255,.45)',maxWidth:430,marginBottom:36,
+              fontSize:'1.03rem',fontWeight:400,lineHeight:1.8,
+              color:'rgba(255,255,255,.85)',maxWidth:520,margin:'0 0 32px',
             }}>
               Our Neurology and Neurosurgery team delivers expert, compassionate care
               for complex neurological conditions using the latest diagnostic and
@@ -568,77 +564,52 @@ export default function NeurologyPage() {
               <Link href="/appointments" className="nbtn-coral">
                 <Calendar size={15}/> Book a Consultation
               </Link>
-              <Link href="/contact" className="nbtn-outline">
-                <Phone size={15}/> Call Us Now
+              <Link href="/doctors" className="nbtn-outline">
+                Meet Our Neurologists
               </Link>
             </div>
           </div>
 
-          {/* right: floating stat cards */}
-          <div className="neuro-hero-right" style={{display:'flex',flexDirection:'column',gap:12}}>
-            {stats.map(({value,label,icon:Icon})=>(
-              <div key={label} className="neuro-hero-stat">
-                <div style={{
-                  width:42,height:42,borderRadius:12,flexShrink:0,
-                  background:'rgba(139,92,246,.2)',
-                  border:'1px solid rgba(139,92,246,.3)',
-                  display:'flex',alignItems:'center',justifyContent:'center',
-                  color:'rgba(200,185,255,.85)',
-                }}>
-                  <Icon size={18}/>
+          {/* right: illustration + floating chips */}
+          <div className="neuro-visual">
+            <NeuroIllustration />
+            <div className="neuro-core-icon" aria-hidden="true">
+              <Brain size={46} strokeWidth={1.5} />
+            </div>
+
+            <div className="neuro-chip" style={{top:'8%',right:'-2%'}}>
+              <div className="neuro-chip-ico" style={{background:'rgba(255,107,53,.2)',color:'#FF9A72'}}>
+                <Zap size={18}/>
+              </div>
+              <div>
+                <div className="nb" style={{fontSize:'.84rem',fontWeight:600,color:'#fff',lineHeight:1.2}}>
+                  24/7 Stroke Unit
                 </div>
-                <div>
-                  <div className="nd" style={{
-                    fontSize:'1.4rem',fontWeight:700,
-                    color:'white',lineHeight:1,marginBottom:2,
-                    letterSpacing:'-0.02em',
-                  }}>{value}</div>
-                  <div className="nb" style={{
-                    fontSize:'10px',fontWeight:500,
-                    letterSpacing:'.12em',textTransform:'uppercase',
-                    color:'rgba(255,255,255,.3)',
-                  }}>{label}</div>
+                <div className="nb" style={{fontSize:'.7rem',fontWeight:400,color:'rgba(255,255,255,.6)',marginTop:2}}>
+                  Emergency neuro care
                 </div>
               </div>
-            ))}
+            </div>
+
+            <div className="neuro-chip" style={{bottom:'9%',left:'-4%'}}>
+              <div className="neuro-chip-ico" style={{background:'rgba(139,92,246,.25)',color:'#D6C9FF'}}>
+                <Activity size={18}/>
+              </div>
+              <div>
+                <div className="nb" style={{fontSize:'.84rem',fontWeight:600,color:'#fff',lineHeight:1.2}}>
+                  3T MRI Diagnostics
+                </div>
+                <div className="nb" style={{fontSize:'.7rem',fontWeight:400,color:'rgba(255,255,255,.6)',marginTop:2}}>
+                  Brain &amp; spine imaging
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>
 
-        {/* wave bottom */}
-        <svg className="neuro-wave" viewBox="0 0 1440 60" preserveAspectRatio="none"
-          style={{height:60,position:'relative',zIndex:4}}>
-          <path d="M0,60 C480,8 960,52 1440,18 L1440,60 Z" fill="#F0EEFF"/>
-        </svg>
+        <div className="neuro-hero-line" />
       </section>
-
-      {/* ══════════════════════════════════════════
-          STATS BAND
-      ══════════════════════════════════════════ */}
-      <div className="neuro-stats">
-        <div className="neuro-stats-grid">
-          {stats.map(({value,label,icon:Icon})=>(
-            <div key={label} className="neuro-stat-cell">
-              <div style={{
-                width:44,height:44,borderRadius:12,
-                background:'rgba(139,92,246,.15)',
-                display:'flex',alignItems:'center',justifyContent:'center',
-                color:'rgba(180,160,255,.8)',marginBottom:12,
-              }}>
-                <Icon size={19}/>
-              </div>
-              <div className="nd" style={{
-                fontSize:'clamp(1.6rem,2.5vw,2.2rem)',fontWeight:700,
-                color:'white',lineHeight:1,marginBottom:6,letterSpacing:'-0.02em',
-              }}>{value}</div>
-              <div className="nb" style={{
-                fontSize:'10px',fontWeight:500,letterSpacing:'.14em',
-                textTransform:'uppercase',color:'rgba(255,255,255,.28)',
-              }}>{label}</div>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* ══════════════════════════════════════════
           CONDITIONS WE TREAT

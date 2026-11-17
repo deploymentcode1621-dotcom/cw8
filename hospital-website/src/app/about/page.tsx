@@ -79,12 +79,7 @@ const leadership = [
 
 const badges = ['NABH Accredited', 'ISO 9001:2015', 'JCI Standards', 'NABL Lab', 'WHO Certified']
 
-const stats = [
-  { value: '500+', label: 'Expert Doctors' },
-  { value: '40+', label: 'Specialties' },
-  { value: '1M+', label: 'Patients Served' },
-  { value: '25', label: 'Years of Excellence' },
-]
+const heroHighlights = ['NABH Accredited', '24/7 Emergency Care', 'Robotic Surgery']
 
 // ── ZIGZAG TIMELINE ───────────────────────────────────────────────────────────
 
@@ -196,172 +191,116 @@ export default function AboutPage() {
     <main className="w-full">
 
       {/* ══════════════════════════════════════════
-          HERO — split layout, no stats block
+          HERO — full-bleed photo, navy gradient, text overlay
           ══════════════════════════════════════════ */}
-      <section
-        className="relative w-full min-h-[90vh] overflow-hidden flex items-center"
-        style={{ background: 'linear-gradient(135deg, #EFF8FF 0%, #DBEAFE 40%, #E0F2FE 70%, #F0FAFB 100%)' }}
-      >
-        {/* Background glow blobs */}
-        <div className="absolute top-[-140px] left-[-120px] w-[560px] h-[560px] rounded-full pointer-events-none z-0"
-          style={{ background: 'radial-gradient(circle, rgba(125,211,252,0.30) 0%, transparent 68%)' }} />
-        <div className="absolute bottom-[-100px] right-[-80px] w-[440px] h-[440px] rounded-full pointer-events-none z-0"
-          style={{ background: 'radial-gradient(circle, rgba(147,197,253,0.25) 0%, transparent 68%)' }} />
-        <div className="absolute top-[40%] right-[20%] w-[280px] h-[280px] rounded-full pointer-events-none z-0"
-          style={{ background: 'radial-gradient(circle, rgba(186,230,253,0.18) 0%, transparent 70%)' }} />
+      <section className="relative w-full min-h-[88vh] overflow-hidden flex items-center bg-[#0A1628]">
 
-        {/* Top shining border */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] z-10"
-          style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(56,189,248,0.4) 25%, rgba(14,165,233,0.85) 50%, rgba(56,189,248,0.4) 75%, transparent 100%)' }} />
+        {/* Photo (right side on desktop, full background on mobile) */}
+        <div className="absolute inset-y-0 right-0 w-full lg:w-[62%]">
+          <Image
+            src="/images/Staff.jpg"
+            alt="Patil Hospital medical team"
+            fill
+            priority
+            className="object-cover object-center"
+          />
+          {/* Mobile: dark wash for readability */}
+          <div className="absolute inset-0 bg-[#0A1628]/75 lg:hidden" />
+          {/* Desktop: fade photo into navy on the left */}
+          <div
+            className="absolute inset-0 hidden lg:block"
+            style={{ background: 'linear-gradient(90deg, #0A1628 0%, rgba(10,22,40,0.85) 18%, rgba(10,22,40,0.25) 60%, rgba(10,22,40,0.1) 100%)' }}
+          />
+          {/* Bottom fade */}
+          <div
+            className="absolute inset-x-0 bottom-0 h-40"
+            style={{ background: 'linear-gradient(to top, rgba(10,22,40,0.7), transparent)' }}
+          />
+        </div>
 
-        {/* Faint dot grid pattern */}
-        <div className="absolute inset-0 z-0 opacity-[0.035]"
-          style={{ backgroundImage: 'radial-gradient(circle, #0891B2 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+        {/* Subtle accent glow */}
+        <div
+          className="absolute -bottom-40 -left-32 w-[520px] h-[520px] rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(8,145,178,0.28) 0%, transparent 68%)' }}
+        />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        {/* Top thin accent line */}
+        <div
+          className="absolute top-0 left-0 right-0 h-[2px]"
+          style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(56,189,248,0.8) 50%, transparent 100%)' }}
+        />
 
-            {/* ── LEFT: Text ── */}
-            <div className="flex flex-col">
+        {/* Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-24 w-full">
+          <div className="max-w-2xl">
 
-              {/* Eyebrow */}
-              <div className="flex items-center gap-3 mb-7 self-start">
-                <div className="h-px w-10 bg-sky-400/50" />
-                <span className="text-[11px] font-bold tracking-[0.22em] uppercase text-sky-600">
-                  Est. 1999 · NABH Accredited
-                </span>
-                <div className="h-px w-10 bg-sky-400/50" />
-              </div>
-
-              {/* Headline */}
-              <h1 className="text-5xl md:text-6xl font-extrabold text-[#0A1628] leading-[1.08] tracking-tight mb-6">
-                25 Years of{' '}
-                <span className="relative inline-block">
-                  <span className="text-sky-500">Healing</span>
-                  <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 200 6" fill="none" aria-hidden="true">
-                    <path d="M0 4 Q50 0 100 4 Q150 8 200 4" stroke="#38BDF8" strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0.75" />
-                  </svg>
-                </span>
-                <br />
-                <span className="text-[#0C6E91]">Humanity</span>
-              </h1>
-
-              {/* Description */}
-              <p className="text-slate-500 text-lg leading-relaxed mb-8 max-w-xl">
-                From a 50-bed clinic to a 500-bed tertiary care centre — every milestone driven by one purpose: world-class care, delivered with compassion.
-              </p>
-
-              {/* Badges row */}
-              <div className="flex flex-wrap gap-2.5 mb-10">
-                {['NABH Accredited', '150+ Specialists', '25 yrs Experience', '40+ Departments'].map((badge) => (
-                  <span
-                    key={badge}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-full bg-white/80 border border-sky-100 text-sky-700 shadow-sm"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-sky-400 flex-shrink-0" />
-                    {badge}
-                  </span>
-                ))}
-              </div>
-
-              {/* CTAs */}
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 font-bold text-sm px-7 py-3.5 rounded-xl tracking-wide transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 text-white"
-                  style={{ background: 'linear-gradient(135deg, #0891B2 0%, #0C6E91 100%)' }}
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  Book an Appointment
-                </Link>
-                <Link
-                  href="/doctors"
-                  className="inline-flex items-center gap-2 font-semibold text-sm px-7 py-3.5 rounded-xl tracking-wide transition-all duration-200 border border-sky-200 bg-white/70 text-sky-700 hover:bg-white hover:shadow-md"
-                >
-                  Meet Our Doctors
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              </div>
+            {/* Eyebrow */}
+            <div className="inline-flex items-center gap-2.5 mb-7 px-5 py-2.5 rounded-full bg-white shadow-lg shadow-black/20">
+              <span className="w-2 h-2 rounded-full bg-sky-500" />
+              <span className="text-[13px] font-bold tracking-[0.12em] uppercase text-[#0A1628]">
+                About Patil Hospital · Est. 1999
+              </span>
             </div>
 
-            {/* ── RIGHT: Visual card stack ── */}
-            <div className="hidden lg:flex flex-col gap-4 relative">
+            {/* Headline */}
+            <h1 className="text-5xl md:text-6xl lg:text-[68px] font-extrabold text-white leading-[1.06] tracking-tight mb-6">
+              25 Years of
+              <br />
+              <span className="text-sky-400">Healing</span> Humanity
+            </h1>
 
-              {/* Doctor image card */}
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-sky-100/60 w-full h-[340px]">
-                <Image
-                  src="/images/doctor-team.png"
-                  alt="Patil Hospital medical team"
-                  fill
-                  className="object-cover object-center"
-                  priority
-                />
-                <div className="absolute inset-0"
-                  style={{ background: 'linear-gradient(to bottom, transparent 50%, rgba(10,22,40,0.45) 100%)' }} />
+            {/* Description */}
+            <p className="text-slate-300 text-lg leading-relaxed mb-9 max-w-xl">
+              From a 50-bed clinic to a 500-bed tertiary care centre — every milestone driven by one purpose: world-class care, delivered with compassion.
+            </p>
 
-                {/* Overlay label */}
-                <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
-                  <div>
-                    <p className="text-white font-bold text-base leading-tight">Patil Hospital</p>
-                    <p className="text-white/65 text-xs mt-0.5">Tertiary Care Centre · Est. 1999</p>
-                  </div>
-                  <span className="bg-emerald-400 text-emerald-900 text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-700 animate-pulse" />
-                    Open 24 / 7
-                  </span>
-                </div>
-              </div>
-
-              {/* Two small info cards side-by-side */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white/80 backdrop-blur-sm border border-sky-100 rounded-2xl p-5 shadow-sm">
-                  <div className="text-3xl mb-2">🏅</div>
-                  <p className="text-[#0A1628] font-extrabold text-base leading-tight">NABH</p>
-                  <p className="text-slate-400 text-xs mt-0.5">Nationally Accredited</p>
-                </div>
-                <div className="bg-white/80 backdrop-blur-sm border border-sky-100 rounded-2xl p-5 shadow-sm">
-                  <div className="text-3xl mb-2">🤖</div>
-                  <p className="text-[#0A1628] font-extrabold text-base leading-tight">Robotic Surgery</p>
-                  <p className="text-slate-400 text-xs mt-0.5">First in the region</p>
-                </div>
-              </div>
-
-              {/* Floating accent badge */}
-              <div
-                className="absolute -top-5 -right-5 w-20 h-20 rounded-2xl flex flex-col items-center justify-center shadow-lg text-white rotate-6"
-                style={{ background: 'linear-gradient(135deg, #0891B2 0%, #0C6E91 100%)' }}
+            {/* CTAs */}
+            <div className="flex flex-wrap gap-3 mb-10">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 font-bold text-sm px-8 py-4 rounded-xl text-white tracking-wide transition-all duration-200 shadow-lg shadow-sky-900/30 hover:shadow-xl hover:-translate-y-0.5"
+                style={{ background: 'linear-gradient(135deg, #0EA5E9 0%, #0891B2 100%)' }}
               >
-                <span className="text-2xl font-extrabold leading-none">25</span>
-                <span className="text-[9px] font-semibold tracking-widest opacity-75 mt-0.5">YEARS</span>
-              </div>
+                Book an Appointment
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+              <Link
+                href="/doctors"
+                className="inline-flex items-center gap-2 font-semibold text-sm px-8 py-4 rounded-xl tracking-wide text-white border border-white/25 bg-white/5 backdrop-blur-sm hover:bg-white/15 transition-all duration-200"
+              >
+                Meet Our Doctors
+              </Link>
             </div>
 
+            {/* Trust row */}
+            <ul className="flex flex-wrap gap-x-7 gap-y-3">
+              {heroHighlights.map((h) => (
+                <li key={h} className="flex items-center gap-2 text-sm font-medium text-slate-200">
+                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-sky-400/20 text-sky-300">
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </span>
+                  {h}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        {/* Bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-14 z-10"
-          style={{ background: 'linear-gradient(to bottom, transparent, #f1f5f9)' }} />
-      </section>
-
-
-      {/* ══════════════════════════════════════════
-          STATS STRIP
-          ══════════════════════════════════════════ */}
-      <section className="w-full bg-[#F59E0B] py-10">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-            {stats.map((s) => (
-              <div key={s.label}>
-                <div className="text-[40px] font-extrabold text-[#0A1628] leading-none">{s.value}</div>
-                <div className="text-xs font-semibold uppercase tracking-widest text-[#0A1628]/60 mt-2">{s.label}</div>
-              </div>
-            ))}
+        {/* Floating glass card on photo (desktop only) */}
+        <div className="hidden lg:flex absolute right-10 bottom-12 z-10 items-center gap-4 px-5 py-4 rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md shadow-2xl">
+          <div className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center text-2xl">🏥</div>
+          <div>
+            <p className="text-white font-bold text-sm leading-tight">Patil Hospital</p>
+            <p className="text-white/65 text-xs mt-0.5">Tertiary Care Centre</p>
           </div>
+          <span className="ml-3 bg-emerald-400 text-emerald-950 text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-800 animate-pulse" />
+            Open 24 / 7
+          </span>
         </div>
       </section>
 

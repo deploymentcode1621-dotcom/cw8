@@ -12,90 +12,76 @@ export default function CardiologyPage() {
   return (
     <>
       {/* ---------------------------------------------------------------- */}
-      {/* CUSTOM IMAGE HERO — full-bleed reference photo, light theme       */}
-      {/* Sits above ServicePageTemplate; template's own hero renders below */}
+      {/* HERO — simple, professional: photo + navy gradient + clean text   */}
+      {/* Palette: deep navy (#0A1628), white text, sky-blue accent         */}
       {/* ---------------------------------------------------------------- */}
-      <section className="relative isolate overflow-hidden min-h-[640px] flex items-center">
+      <section className="relative isolate flex min-h-[560px] items-center overflow-hidden bg-[#0A1628]">
         {/* Background image */}
         <Image
           src="/images/Heart-care.jpg"
           alt="Anatomical heart model, red heart, and stethoscope on a white surface with an ECG heartbeat line"
           fill
           priority
-          className="object-cover object-center -z-20"
+          className="-z-20 object-cover object-center"
         />
 
-        {/* No white wash overlay — background image renders clean and unobscured */}
+        {/* Navy gradient: solid on the text side, fading out over the photo */}
+        <div
+          className="absolute inset-0 -z-10"
+          style={{
+            background:
+              'linear-gradient(90deg, rgba(10,22,40,0.94) 0%, rgba(10,22,40,0.82) 40%, rgba(10,22,40,0.35) 75%, rgba(10,22,40,0.15) 100%)',
+          }}
+        />
 
         {/* Content */}
-        <div className="relative mx-auto w-full max-w-7xl px-6 py-24 sm:px-8 lg:px-12">
-          <div className="max-w-xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-black/30 backdrop-blur px-4 py-2 shadow-sm ring-1 ring-white/20">
-              <span className="text-2xl leading-none">❤️</span>
-              <span className="text-sm font-semibold tracking-wide text-white">
+        <div className="relative mx-auto w-full max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
+          <div className="max-w-2xl">
+            {/* Label */}
+            <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur">
+              <span className="text-lg leading-none" aria-hidden="true">❤️</span>
+              <span className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-100">
                 Cardiology Department
               </span>
             </div>
 
-           <h1 className="text-4xl font-bold leading-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] sm:text-5xl lg:text-6xl">
-  Advanced Heart Care,
-  <span className="block text-blue-900">Close to Home</span>
-</h1>
+            {/* Headline */}
+            <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
+              Advanced Heart Care,
+              <span className="block text-sky-300">Close to Home</span>
+            </h1>
 
-            <p className="mt-6 text-lg leading-relaxed text-white/90 drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)] sm:text-xl">
+            {/* Description */}
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-200">
               Our Cardiology department combines preventive medicine with the
               most advanced interventional procedures in a compassionate,
               patient-first environment.
             </p>
 
+            {/* Buttons */}
             <div className="mt-9 flex flex-wrap gap-4">
               <a
                 href="#appointment"
-                className="rounded-xl bg-red-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-black/30 transition hover:bg-red-700"
+                className="rounded-xl bg-sky-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-black/25 transition hover:bg-sky-700"
               >
                 Book an Appointment
               </a>
               <a
                 href="#doctors"
-                className="rounded-xl border-2 border-white/80 bg-black/20 px-7 py-3.5 text-base font-semibold text-white backdrop-blur transition hover:bg-white hover:text-slate-900"
+                className="rounded-xl border border-white/40 bg-white/10 px-7 py-3.5 text-base font-semibold text-white backdrop-blur transition hover:bg-white hover:text-[#0A1628]"
               >
                 Meet Our Cardiologists
               </a>
             </div>
           </div>
-
-          {/* Quick stat strip echoing the hero's red / steel-blue palette */}
-          <div className="mt-14 grid max-w-2xl grid-cols-2 gap-4 sm:grid-cols-4">
-            {[
-              { value: '10K+', label: 'Cardiac Procedures' },
-              { value: '98%', label: 'Success Rate' },
-              { value: '15+', label: 'Cardiologists' },
-              { value: '24/7', label: 'Cardiac ICU' },
-            ].map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-xl bg-black/30 px-4 py-4 text-center shadow-sm ring-1 ring-white/20 backdrop-blur"
-              >
-                <div className="text-2xl font-bold text-red-400 sm:text-3xl">
-                  {stat.value}
-                </div>
-                <div className="mt-1 text-xs font-medium text-white/90 sm:text-sm">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
 
-        {/* Thin steel-blue accent line at the base, echoing the stethoscope tubing */}
-        <div className="absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r from-blue-700 via-blue-500 to-red-600" />
+        {/* Thin accent line at the base */}
+        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-sky-600 via-sky-400 to-transparent" />
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* TEMPLATE — only props that already exist in the original code.   */}
-      {/* heroGradient switched from rose/orange to a light red→blue tint   */}
-      {/* so the template's own hero (which still renders) matches the     */}
-      {/* photo above instead of clashing with it.                         */}
+      {/* TEMPLATE — unchanged                                              */}
       {/* ---------------------------------------------------------------- */}
       <ServicePageTemplate
         icon="❤️"

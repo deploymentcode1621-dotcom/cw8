@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ServiceHero from '@/components/ServiceHero'
 
 interface Condition { name: string; desc: string }
 interface Doctor { name: string; exp: string; initials: string }
@@ -9,7 +10,7 @@ interface ServicePageProps {
   name: string
   tagline: string
   description: string
-  heroGradient: string
+  heroGradient?: string // no longer used by the hero, kept so existing pages don't break
   accentColor: string
   conditions: Condition[]
   treatments: string[]
@@ -19,12 +20,21 @@ interface ServicePageProps {
 }
 
 export default function ServicePageTemplate({
-  icon, name, tagline, description, heroGradient, accentColor,
+  icon, name, tagline, description, accentColor,
   conditions, treatments, doctors, faqs, stats
 }: ServicePageProps) {
   return (
     <>
-     
+      {/* Hero */}
+      <ServiceHero
+        icon={icon}
+        name={name}
+        tagline={tagline}
+        description={description}
+        stats={stats}
+        nextBg="#ffffff"
+      />
+
       {/* Conditions */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4">
@@ -109,12 +119,42 @@ export default function ServicePageTemplate({
         </div>
       </section>
 
-      {/* CTA */}
-      <section className={`${heroGradient} py-20 text-white text-center`}>
-        <div className="max-w-2xl mx-auto px-4">
-          <h2 className="font-display text-3xl font-black mb-4">Start Your {name} Care Journey</h2>
-          <p className="text-white/70 mb-8">Our specialists are ready to help you. Schedule your appointment today.</p>
-          <Link href="/contact" className="btn-white text-primary-800">Book Your Appointment</Link>
+      {/* CTA — always a dark navy background so the white text is readable */}
+      <section
+        className="relative w-full overflow-hidden py-20 sm:py-24"
+        style={{ background: 'linear-gradient(135deg, #0A1628 0%, #0C4A6E 100%)' }}
+      >
+        {/* Decorative rings */}
+        <div className="pointer-events-none absolute -right-28 -top-28 h-80 w-80 rounded-full border-[48px] border-white/[0.04]" />
+        <div className="pointer-events-none absolute -bottom-24 -left-16 h-64 w-64 rounded-full border-[36px] border-white/[0.04]" />
+
+        <div className="relative mx-auto max-w-3xl px-6 text-center">
+          <span className="mb-6 inline-block rounded-full bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-sky-200">
+            Get Started
+          </span>
+
+          <h2 className="text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+            Start Your {name} <span className="text-sky-300">Care Journey</span>
+          </h2>
+
+          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg">
+            Our specialists are ready to help you. Schedule your appointment today.
+          </p>
+
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Link
+              href="/contact"
+              className="w-full rounded-xl bg-sky-500 px-9 py-4 text-base font-semibold text-white shadow-lg shadow-black/30 transition hover:bg-sky-400 sm:w-auto"
+            >
+              Book Your Appointment
+            </Link>
+            <a
+              href="tel:+918001234567"
+              className="w-full rounded-xl border border-white/40 bg-white/10 px-9 py-4 text-base font-semibold text-white backdrop-blur transition hover:bg-white hover:text-[#0A1628] sm:w-auto"
+            >
+              Call Us Now
+            </a>
+          </div>
         </div>
       </section>
     </>
